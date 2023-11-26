@@ -59,12 +59,14 @@ class LogisticRegression(LinearModel):
         y_i: the gold label for that example
         learning_rate (float): keep it at the default value for your plots
         """
-        ###### Wrong. Why? #####
         # Q1.1b
-        prediction = self.predict(x_i)
-        y_hat_i = 1 / (1 + np.exp(-prediction))
-        error = y_i - y_hat_i
-        self.W += learning_rate * error * x_i.T
+        y_hat = np.dot(self.W, x_i)
+        y_hat_i =  np.exp(y_hat) / np.sum(np.exp(y_hat))
+
+        for k in range(self.W.shape[0]):
+            indicator = 1 if k == y_i else 0
+            gradient = ((y_hat_i[k] - indicator) * x_i) / x_i.shape[0]
+            self.W[k] -= learning_rate * gradient
 
 class MLP(object):
     # Q3.2b. This MLP skeleton code allows the MLP to be used in place of the

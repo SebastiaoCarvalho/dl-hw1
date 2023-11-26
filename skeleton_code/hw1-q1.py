@@ -45,8 +45,11 @@ class Perceptron(LinearModel):
         y_i (scalar): the gold label for that example
         other arguments are ignored
         """
-        # Q1.1a
-        raise NotImplementedError
+        # Q1.1a 
+        y_hat_i = self.predict(x_i)
+        if y_hat_i != y_i:
+            self.W[y_i] += x_i
+            self.W[y_hat_i] -= x_i
 
 
 class LogisticRegression(LinearModel):
@@ -56,9 +59,12 @@ class LogisticRegression(LinearModel):
         y_i: the gold label for that example
         learning_rate (float): keep it at the default value for your plots
         """
+        ###### Wrong. Why? #####
         # Q1.1b
-        raise NotImplementedError
-
+        prediction = self.predict(x_i)
+        y_hat_i = 1 / (1 + np.exp(-prediction))
+        error = y_i - y_hat_i
+        self.W += learning_rate * error * x_i.T
 
 class MLP(object):
     # Q3.2b. This MLP skeleton code allows the MLP to be used in place of the

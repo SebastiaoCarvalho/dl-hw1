@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage[top=2cm]{geometry}
@@ -60,17 +61,13 @@ This example thus serves as a counter-example proving that the given function ca
 
 \subsubsection*{(b) Neural Network With Hard Threshold Activation (15 points)}
 
-% Show that the function above can be computed with a multilayer perceptron
-% with a single hidden layer with two hidden units and hard threshold activations
-% g: R → {-1,+1} with
+Show that the function above can be computed with a multilayer perceptron with a single hidden layer with two hidden 
+units and hard threshold activations \(g: \mathbb{R} \rightarrow \{-1,+1\}\) with
 
-% and where all the weights and biases are integers (positive, negative, or zero).
-% Provide all the weights and biases of such network, and ensure that the resulting network
-% is robust to infinitesimal perturbation of the inputs, i.e., the resulting function h : R
-% D →
-% R should be such that limt→0 h(x+tv) = h(x) = f(x) for any x ∈ {-1,+1}
-% D and v ∈ R
-% D.
+and where all the weights and biases are integers (positive, negative, or zero). Provide all the weights and biases of such network, and ensure 
+that the resulting network is robust to infinitesimal perturbation of the inputs, i.e., the resulting function 
+h : $\mathbb{R}^{D} \rightarrow \mathbb{R}$ should be such that $limt \rightarrow 0 h(x+tv) = h(x) = f(x)$ for 
+any $x \in \{-1,+1\}^{D}$ and $\in \mathbb{R}^{D}.$
 
 \paragraph{Answer}
 
@@ -89,6 +86,18 @@ First we will start by defining the weights and biases of the network. We will u
 \end{bmatrix}
 \), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. \\
 
+The idea behind the weights and biases of the first layer is that we want to verify if the sum of the input vector is within the range [A, B].
+But we have to do this individually, computing the lowe bound condition for the first hidden unit, 
+and the upper bound condition for the second hidden unit. \\
+
+That is why we have the weights of the first layer as all 1's for the first row and all -1's for the second row, and the biases as -A and B. \\
+The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it will be 1 if the sum of the input vector is greater than or equal to A, 
+and -1 otherwise. \\
+The second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B, 
+and -1 otherwise. \\
+This means the first hidden unit's output is if the sum of the input vector respects the lower bound, 
+and the second hidden unit's output is if the sum of the input vector respects the upper bound. \\
+
 \( W^{(2)} = \begin{bmatrix}
     1 & 1
 \end{bmatrix}
@@ -98,5 +107,9 @@ First we will start by defining the weights and biases of the network. We will u
     -1
 \end{bmatrix}
 \).
+
+\(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND function of the two hidden units. We use this since the output of 
+the hidden units is either -1 or 1, and computing the AND we can verify if they respect the lower bound and upper bound, and thus
+belong to the range [A, B]. \\
 
 \end{document}

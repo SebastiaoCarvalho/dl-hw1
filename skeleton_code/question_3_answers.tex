@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[top=2cm]{geometry}
+
+\title{Question 3}
+\author{99222 - Frederico Silva, 99326 - Sebastião Carvalho}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 3}
+In this exercise, you will design a multilayer perceptron to compute a Boolean function of \( D \) variables, \(f : \{-1,+1\}^D \rightarrow \{-1,+1\} \), defined as:
+
+\subsubsection*{(a) Perceptron's Limitations (5 points)}
+
+Show that the function above cannot generally be computed with a single perceptron. \textit{Hint: think of a simple counter-example.}
+
+\paragraph{Answer}
+
+To demonstrate that the specified Boolean function cannot be computed by a single perceptron, let's consider a simple case where \( D = 2 \), \( A = -1 \), and \( B = 1 \). The function \( f \) is defined as:
+
+\[
+f(x) = 
+\begin{cases} 
+1 & \text{if } \sum_{i=1}^{D} x_i \in [-1, 1], \\
+-1 & \text{otherwise}
+\end{cases}
+\]
+
+In this setup:
+
+\begin{itemize}
+    \item For \( x = (+1, +1) \), the sum \( \sum x_i = 2 \). Since 2 is not in the range [-1, 1], \( f(x) = -1 \).
+    \item For \( x = (-1, -1) \), the sum \( \sum x_i = -2 \). Since -2 is also not in the range [-1, 1], \( f(x) = -1 \).
+    \item For \( x = (-1, +1) \) or \( x = (+1, -1) \), the sum \( \sum x_i = 0 \). This falls within the range [-1, 1], so \( f(x) = 1 \) for these inputs.
+\end{itemize}
+
+The visual representation of the points can be seen in Figure \ref{fig:points}. The red points represent the inputs that should be classified as \( +1 \) and the blue points represent the inputs that should be classified as \( -1 \).
+
+The critical point here is that a single perceptron is fundamentally a linear classifier, which means it can only separate data points using a straight line in the feature space. However, in this example, there is no straight line that can separate these points accordingly in a 2D space to satisfy the function \( f \).
+
+This example thus serves as a counter-example proving that the given function cannot generally be computed with a single perceptron, as it requires a non-linear decision boundary which a single perceptron cannot provide. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"3a.png"}
+    \caption{Classification of points using the function \( f \)}
+    \label{fig:points}
+\end{figure}
+
+\end{document}

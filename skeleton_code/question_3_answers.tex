@@ -21,7 +21,10 @@ Show that the function above cannot generally be computed with a single perceptr
 
 \paragraph{Answer}
 
-To demonstrate that the specified Boolean function cannot be computed by a single perceptron, let's consider a simple case where \( D = 2 \), \( A = -1 \), and \( B = 1 \). The function \( f \) is defined as:
+To demonstrate that the specified Boolean function cannot be computed by a single perceptron, we simply need to show 
+that there exists a counter-example where the data is not linearly separable.\\
+
+Let's consider a simple case where \( D = 2 \), \( A = -1 \), and \( B = 1 \). The function \( f \) is defined as:
 
 \[
 f(x) = 
@@ -31,12 +34,15 @@ f(x) =
 \end{cases}
 \]
 
+Now, let's consider the following inputs:
+\(x_1 = (+1, +1)\), \(x_2 = (-1, -1)\), \(x_3 = (-1, +1)\), and \(x_4 = (+1, -1)\).
+
 In this setup:
 
 \begin{itemize}
-    \item For \( x = (+1, +1) \), the sum \( \sum x_i = 2 \). Since 2 is not in the range [-1, 1], \( f(x) = -1 \).
-    \item For \( x = (-1, -1) \), the sum \( \sum x_i = -2 \). Since -2 is also not in the range [-1, 1], \( f(x) = -1 \).
-    \item For \( x = (-1, +1) \) or \( x = (+1, -1) \), the sum \( \sum x_i = 0 \). This falls within the range [-1, 1], so \( f(x) = 1 \) for these inputs.
+    \item For \( x_1 \), the sum \( \sum x_i = 2 \). Since 2 is not in the range [-1, 1], \( f(x) = -1 \).
+    \item For \( x_2 \), the sum \( \sum x_i = -2 \). Since -2 is also not in the range [-1, 1], \( f(x) = -1 \).
+    \item For \( x_3 \) and \( x_4 \), the sum \( \sum x_i = 0 \). This falls within the range [-1, 1], so \( f(x) = 1 \) for these inputs.
 \end{itemize}
 
 The visual representation of the points can be seen in Figure \ref{fig:points}. The red points represent the inputs that should be classified as \( +1 \) and the blue points represent the inputs that should be classified as \( -1 \).
@@ -51,5 +57,46 @@ This example thus serves as a counter-example proving that the given function ca
     \caption{Classification of points using the function \( f \)}
     \label{fig:points}
 \end{figure}
+
+\subsubsection*{(b) Neural Network With Hard Threshold Activation (15 points)}
+
+% Show that the function above can be computed with a multilayer perceptron
+% with a single hidden layer with two hidden units and hard threshold activations
+% g: R → {-1,+1} with
+
+% and where all the weights and biases are integers (positive, negative, or zero).
+% Provide all the weights and biases of such network, and ensure that the resulting network
+% is robust to infinitesimal perturbation of the inputs, i.e., the resulting function h : R
+% D →
+% R should be such that limt→0 h(x+tv) = h(x) = f(x) for any x ∈ {-1,+1}
+% D and v ∈ R
+% D.
+
+\paragraph{Answer}
+
+First we will start by defining the weights and biases of the network. We will use the notation
+\( W^{(l)} \) to represent the weights of the \( l \)-th layer, and \( b^{(l)} \) to represent the biases of the \( l \)-th layer. \\
+
+\( W^{(1)} = \begin{bmatrix}
+    1 & ... & 1\\
+    -1 & ...  & -1
+\end{bmatrix}
+\), where \(W^{(1)}\) is a matrix of size 2 x D, and D is the size of the input vector. \\
+
+\(b^{(1)} = \begin{bmatrix}
+    -A\\
+    B
+\end{bmatrix}
+\), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. \\
+
+\( W^{(2)} = \begin{bmatrix}
+    1 & 1
+\end{bmatrix}
+\).
+
+\(b^{(2)} = \begin{bmatrix}
+    -1
+\end{bmatrix}
+\).
 
 \end{document}

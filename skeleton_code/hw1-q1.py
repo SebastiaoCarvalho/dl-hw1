@@ -72,20 +72,45 @@ class MLP(object):
     # in main().
     def __init__(self, n_classes, n_features, hidden_size):
         # Initialize an MLP with a single hidden layer.
-        raise NotImplementedError
+        self.b1 = np.zeros((hidden_size, 1))
+        print(self.b1)
+        self.b2 = np.zeros((n_classes, 1))
+        w1 = []
+        for i in range (hidden_size):
+            w1_row = []
+            for j in range(n_features):
+                w1_row.append(np.random.normal(0.1, 0.01))
+            w1.append(w1_row)
+        self.W1 = np.array(w1)
+        w2 = []
+        for i in range(n_classes):
+            w2_row = []
+            for j in range(hidden_size):
+                w2_row.append(np.random.normal(0.1, 0.01))
+            w2.append(w2_row)
+        self.W2 = np.array(w2)
 
     def predict(self, X):
-        # Compute the forward pass of the network. At prediction time, there is
-        # no need to save the values of hidden nodes, whereas this is required
-        # at training time.
-        raise NotImplementedError
+        z1 = np.dot(self.W1, X.T) + self.b1
+        x1 = []
+        for i in range(z1.shape[0]):
+            x1_row = []
+            for j in range(z1.shape[1]):
+                x1_row.append(z1[i][j] if z1[i][j] > 0 else 0)
+            x1.append(x1_row)
+        x1 = np.array(x1)
+        z2 = np.dot(self.W2, x1.T) + self.b2
+        sum_exp = np.sum(np.exp(z2))
+        x2 = np.exp(z2) / sum_exp
+        return x2.argmax(axis=0)
 
     def evaluate(self, X, y):
         """
         X (n_examples x n_features)
         y (n_examples): gold labels
         """
-        # Identical to LinearModel.evaluate()
+        # Identical to LinearModel.evaluate() 
+        # FIXME : should this use loss or same as linear classifier?
         y_hat = self.predict(X)
         n_correct = (y == y_hat).sum()
         n_possible = y.shape[0]
@@ -95,8 +120,20 @@ class MLP(object):
         """
         Dont forget to return the loss of the epoch.
         """
-        raise NotImplementedError
-
+        z1 = np.dot(self.W1, X.T) + self.b1
+        x1 = np.array(list(map(lambda x: list(map(lambda k: k if k > 0 else 0, x)), z1)))
+        print()
+        z2 = np.dot(self.W2, x1) + self.b2
+        sum_exp = np.sum(np.exp(z2))
+        x2 = np.exp(z2) / sum_exp
+        delta2 = x2 - y
+        derivative1 = np.array(list(map(lambda x: list(map(lambda k: 1 if k > 0 else 0, x)), z1)))
+        delta1 = np.dot(self.W2.T, delta2) * derivative1
+        self.W2 -= learning_rate * np.dot(delta2, x1.T)
+        self.b2 -= learning_rate * delta2
+        self.W1 -= learning_rate * np.dot(delta1, X)
+        self.b1 -= learning_rate * delta1        
+        return -np.sum(y * np.log(x2))
 
 def plot(epochs, train_accs, val_accs):
     plt.xlabel('Epoch')

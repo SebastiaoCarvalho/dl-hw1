@@ -115,12 +115,20 @@ class MLP(object):
         n_correct = (y == y_hat).sum()
         n_possible = y.shape[0]
         return n_correct / n_possible
+    
+    def softmax(self, x):
+        e = np.exp(x - np.max(x))
+        if e.ndim == 1:
+            return e / np.sum(e, axis=0)
+        else: # dim = 2
+            return e / np.sum(e, axis=1, keepdims=True)
 
     def train_epoch(self, X, y, learning_rate=0.001):
         """
         Dont forget to return the loss of the epoch.
         """
         loss = 0
+        delta_W2, delta_W1, delta_b1, delta_b2 = 0, 0, 0, 0
         #print(np.shape(X), np.shape(y))
         for x_i, y_i in zip(X, y):
             x_i = np.reshape(x_i, (-1, 1))
@@ -131,8 +139,7 @@ class MLP(object):
             #print("x1", np.shape(x1))
             z2 = np.dot(self.W2, x1) + self.b2
             #print("z2", np.shape(z2))
-            sum_exp = np.sum(np.exp(z2))
-            x2 = np.exp(z2) / sum_exp
+            x2 = self.softmax(z2)
             #print("x2", np.shape(x2))
             delta2 = x2 - y_i
             #print("delta2", np.shape(delta2))
@@ -140,13 +147,17 @@ class MLP(object):
             #print("derivative1", np.shape(derivative1))
             delta1 = np.dot(self.W2.T, delta2) * derivative1
             #print("delta1", np.shape(delta1))
-            self.W2 -= learning_rate * np.dot(delta2, x1.T)
-            self.b2 -= learning_rate * delta2
-            self.W1 -= learning_rate * np.dot(delta1, x_i.T)
-            self.b1 -= learning_rate * delta1
+            delta_W2 +=  np.dot(delta2, x1.T)
+            delta_b2 +=  delta2
+            delta_W1 +=  np.dot(delta1, x_i.T)
+            delta_b1 += delta1
             e_y = np.zeros(x2.shape)
-            e_y[y_i.argmax(axis=0)] = 1
-            loss += -np.sum(e_y * np.log(x2))     
+            e_y[y_i] = 1
+            loss += -np.sum(e_y * np.log(x2))  
+        self.W2 -= learning_rate * delta_W2 / len(X)
+        self.W1 -= learning_rate * delta_W1 / len(X)
+        self.b2 -= learning_rate * delta_b2 / len(X)
+        self.b1 -= learning_rate * delta_b1 / len(X)
         return loss/len(X)
 
 def plot(epochs, train_accs, val_accs):

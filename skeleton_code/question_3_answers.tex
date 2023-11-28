@@ -95,8 +95,8 @@ The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it wil
 and -1 otherwise. \\
 The second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B, 
 and -1 otherwise. \\
-This means the first hidden unit's output is if the sum of the input vector respects the lower bound, 
-and the second hidden unit's output is if the sum of the input vector respects the upper bound. \\
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound, 
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound. \\
 
 \( W^{(2)} = \begin{bmatrix}
     1 & 1
@@ -111,5 +111,8 @@ and the second hidden unit's output is if the sum of the input vector respects t
 \(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND function of the two hidden units. We use this since the output of 
 the hidden units is either -1 or 1, and computing the AND we can verify if they respect the lower bound and upper bound, and thus
 belong to the range [A, B]. \\
+
+With this, if h(X) is the resulting function of the network, we have that h(X) = 1 if the sum of the input vector is within the range [A, B], 
+and -1 otherwise, and, thus, h(X) = f(X), and we prove this neural network computes f(X).\\
 
 \end{document}

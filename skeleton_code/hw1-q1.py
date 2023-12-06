@@ -149,15 +149,11 @@ class MLP(object):
             #print("derivative1", np.shape(derivative1))
             delta1 = np.dot(self.W2.T, delta2) * derivative1
             #print("delta1", np.shape(delta1))
-            delta_W2 +=  np.dot(delta2, x1.T)
-            delta_b2 +=  delta2
-            delta_W1 +=  np.dot(delta1, x_i.T)
-            delta_b1 += delta1
+            self.W2 -= learning_rate *  np.dot(delta2, x1.T)
+            self.W1 -= learning_rate * np.dot(delta1, x_i.T)
+            self.b2 -= learning_rate * delta2
+            self.b1 -= learning_rate * delta1
             loss += -np.sum(e_y * np.log(x2))
-            self.W2 -= learning_rate * delta_W2
-            self.W1 -= learning_rate * delta_W1
-            self.b2 -= learning_rate * delta_b2
-            self.b1 -= learning_rate * delta_b1
         return loss/len(X)
 
 def plot(epochs, train_accs, val_accs):

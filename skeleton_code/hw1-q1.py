@@ -65,7 +65,7 @@ class LogisticRegression(LinearModel):
 
         for k in range(self.W.shape[0]):
             indicator = 1 if k == y_i else 0
-            gradient = ((y_hat_i[k] - indicator) * x_i) / x_i.shape[0]
+            gradient = ((y_hat_i[k] - indicator) * x_i) 
             self.W[k] -= learning_rate * gradient
 
 class MLP(object):

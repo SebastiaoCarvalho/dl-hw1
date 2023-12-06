@@ -176,4 +176,60 @@ and the second hidden unit's output is 1 if the sum of the input vector respects
 With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
 that are within the range \([A - \epsilon, B + \epsilon]\).
 
+\subsubsection*{(c) MLP with Relu activation (10 points)}
+
+Repeat the previous exercise if the hidden units use rectified linear unit activations instead. 
+
+\paragraph{Answer}
+
+The rectified linear unit (Relu) activation function is defined as:
+
+\[ 
+    % g(x) = \left\{
+    % begin{array}{ll}
+    %     x & x \geq 0 \\
+    %     0 & \text{otherwise}
+    % \end{array}
+    function
+\]
+
+First we will start by defining the weights and biases of the network. We will use the same notation as the previous 
+exercise for the weights and biases. \\
+
+\( W^{(1)} = \begin{bmatrix}
+    -1 & ...  & -1\\
+    1 & ... & 1
+\end{bmatrix}
+\), where \(W^{(1)}\) is a matrix of size 2 x D, and D is the size of the input vector. \\
+
+\(b^{(1)} = \begin{bmatrix}
+    A\\
+    -B
+\end{bmatrix}
+\), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. \\
+
+The idea behind the weights and biases of the first layer is somewhat the opposite of the first exercise. We want the hidden units to output 0
+if the sum of hte input vector respects one of the bounds, and a positive value otherwise.\\
+
+But we have to do this individually, computing the lower bound condition for the first hidden unit, 
+and the upper bound condition for the second hidden unit, same as the previous exercise. \\
+
+That is why we have the weights of the first layer as all -1's for the first row and all 1's for the second row, and the biases as A and -B. \\
+The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it will be 1 if the sum of the input vector is greater than or equal to A, 
+and -1 otherwise. \\
+The second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B, 
+and -1 otherwise. \\
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound, 
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound. \\
+
+\( W^{(2)} = \begin{bmatrix}
+    -1 & -1
+\end{bmatrix}
+\).
+
+\(b^{(2)} = \begin{bmatrix}
+    -1
+\end{bmatrix}
+\).
+
 \end{document}

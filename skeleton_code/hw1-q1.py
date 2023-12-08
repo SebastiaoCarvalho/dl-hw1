@@ -73,33 +73,14 @@ class MLP(object):
     def __init__(self, n_classes, n_features, hidden_size):
         # Initialize an MLP with a single hidden layer.
         self.b1 = np.zeros((hidden_size, 1))
-        #print("b1", np.shape(self.b1))
         self.b2 = np.zeros((n_classes, 1))
-        #print("b2", np.shape(self.b2))
-        w1 = []
-        for i in range (hidden_size):
-            w1_row = []
-            for j in range(n_features):
-                w1_row.append(np.random.normal(0.1, 0.01))
-            w1.append(w1_row)
-        self.W1 = np.array(w1)
-        #print("W1", np.shape(self.W1))
-        w2 = []
-        for i in range(n_classes):
-            w2_row = []
-            for j in range(hidden_size):
-                w2_row.append(np.random.normal(0.1, 0.01))
-            w2.append(w2_row)
-        self.W2 = np.array(w2)
-        #print("W2", np.shape(self.W2))
+        self.W1 = np.random.normal(0.1, 0.01, (hidden_size, n_features))
+        self.W2 = np.random.normal(0.1, 0.01, (n_classes, hidden_size))
 
     def predict(self, X):
         z1 = np.dot(self.W1, X.T) + self.b1
-        #print("z1", np.shape(z1))
         x1 = np.array(list(map(lambda x: list(map(lambda k : k if k > 0 else 0, x)), z1)))
-        #print("x1", np.shape(x1))
         z2 = np.dot(self.W2, x1) + self.b2
-        #print("z2", np.shape(z2))
         x2 = self.softmax(z2)
         return x2.argmax(axis=0)
 
@@ -109,7 +90,6 @@ class MLP(object):
         y (n_examples): gold labels
         """
         # Identical to LinearModel.evaluate() 
-        # FIXME : should this use loss or same as linear classifier?
         y_hat = self.predict(X)
         n_correct = (y == y_hat).sum()
         n_possible = y.shape[0]
@@ -119,38 +99,30 @@ class MLP(object):
         e = np.exp(x - np.max(x))
         return e / np.sum(e)
 
+    def update_weight(self, x_i, y_i, learning_rate=0.001):
+        z1 = np.dot(self.W1, x_i) + self.b1
+        x1 = np.array(list(map(lambda x: list(map(lambda k : k if k > 0 else 0, x)), z1)))
+        z2 = np.dot(self.W2, x1) + self.b2
+        x2 = self.softmax(z2)
+        e_y = np.zeros(x2.shape)
+        e_y[y_i] = 1
+        delta2 = x2 - e_y
+        derivative1 = np.array(list(map(lambda x: list(map(lambda k : 1 if k > 0 else 0, x)), z1)))
+        delta1 = np.dot(self.W2.T, delta2) * derivative1
+        self.W2 -= learning_rate *  np.dot(delta2, x1.T)
+        self.W1 -= learning_rate * np.dot(delta1, x_i.T)
+        self.b2 -= learning_rate * delta2
+        self.b1 -= learning_rate * delta1
+        return -np.sum(e_y * np.log(x2))
+
     def train_epoch(self, X, y, learning_rate=0.001):
         """
         Dont forget to return the loss of the epoch.
         """
         loss = 0
-        #print(np.shape(X), np.shape(y))
         for x_i, y_i in zip(X, y):
-            x_i = np.reshape(x_i, (-1, 1))
-            #print("x_i", np.shape(x_i))
-            z1 = np.dot(self.W1, x_i) + self.b1
-            #print("z1", np.shape(z1))
-            x1 = np.array(list(map(lambda x: list(map(lambda k : k if k > 0 else 0, x)), z1)))
-            #print("x1", np.shape(x1))
-            z2 = np.dot(self.W2, x1) + self.b2
-            #print("z2", np.shape(z2))
-            #print(z2)
-            x2 = self.softmax(z2)
-            #print("x2", np.shape(x2))
-            e_y = np.zeros(x2.shape)
-            e_y[y_i] = 1
-            delta2 = x2 - e_y
-            #print("delta2", np.shape(delta2))
-            derivative1 = np.array(list(map(lambda x: list(map(lambda k : 1 if k > 0 else 0, x)), z1)))
-            #print("derivative1", np.shape(derivative1))
-            delta1 = np.dot(self.W2.T, delta2) * derivative1
-            #print("delta1", np.shape(delta1))
-            self.W2 -= learning_rate *  np.dot(delta2, x1.T)
-            self.W1 -= learning_rate * np.dot(delta1, x_i.T)
-            self.b2 -= learning_rate * delta2
-            self.b1 -= learning_rate * delta1
-            #print(x2, e_y)
-            loss += -np.sum(e_y * np.log(x2))
+            x_i = np.reshape(x_i, (-1, 1)) # convert to column vector
+            loss += self.update_weight(x_i, y_i, learning_rate)
         return loss/len(X)
 
 def plot(epochs, train_accs, val_accs):

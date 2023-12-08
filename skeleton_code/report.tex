@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage[top=2cm]{geometry}
@@ -22,7 +23,33 @@ Medical image classification with linear classifiers and neural networks.
 
 \subsubsection{Question 1.1 a)}
 
+\paragraph{Answer} After running the code, the following plot was generated:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/1_1_a.png"}
+    \caption{Classification of points using the function \( f \)}
+    \label{1.1.a Plot}
+\end{figure}
+
+The final test accuracy was 0.3422.
+
 \subsubsection{Question 1.1 b)}
+\paragraph{Answer} After running the code, the following plots were generated, for learning rate $\eta = 0.01$ and $\eta = 0.001$, respectively:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/1_1_b_001.png"}
+    \caption{Classification of points using the function \( f \)}
+    \label{1.1.b 0.01 Plot}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/1_1_b_0001.png"}
+    \caption{Classification of points using the function \( f \)}
+    \label{1.1.b 0.0001 Plot}
+\end{figure}
+
+The final test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
 
 \subsection{Question 1.2}
 
@@ -74,7 +101,7 @@ This example thus serves as a counter-example proving that the given function ca
     \centering
     \includegraphics[width=0.8\textwidth]{"3a.png"}
     \caption{Classification of points using the function \( f \)}
-    \label{fig:points}
+    \label{3a Plot}
 \end{figure}
 \subsubsection{Question 3.1 b)}
 \subsubsection{Question 3.1 c)}

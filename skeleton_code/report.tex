@@ -49,11 +49,34 @@ The final test accuracy was 0.3422.
     \label{1.1.b 0.0001 Plot}
 \end{figure}
 
-The final test accuracies were 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$, respectively.
+The final test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
+Comparing both charts, we can see that for $\eta = 0.001$, the accuracy increases more slowly, but it reaches a higher value than for $\eta = 0.01$. 
+This is because for $\eta = 0.01$, the algorithm is taking too big steps, and it is not able to converge to a better solution. This can be 
+seen in the chart for $\eta = 0.01$, near epoch 40, when the accuracy drops to an all time low.\\
+Since the learning rate is too small for $\eta = 0.001$, the algorithm takes longer to reach higher accuracies, but it's also 
+less oscillatory, and it is able to converge to a better solution.\\
 
 \subsection{Question 1.2}
 
 \subsubsection{Question 1.2 a)}
+
+\paragraph{Answer}
+The answer to this question mainly focus on two topics: how complex the models are, meaning their expressiveness, and how easy they are to train. \\
+Regarding the expressiveness, logistic regression is a linear model that learns a single decision boundary to separate classes. 
+When using pixel values as features, it treats each pixel independently and cannot capture complex patterns such as shapes or textures 
+that might be essential for tasks like image classification.\\ 
+On the other hand, a multi-layer perceptron can learn non-linear decision boundaries due to its hidden layers and non-linear activation functions like ReLU. 
+Each layer can transform the feature space in a way that makes the data linearly separable by subsequent layers, allowing the MLP to capture 
+complex patterns and relationships in the data.\\
+When it comes to how easy it is to train this models, logistic regression, with its convex cost function, offers a straightforward training guaranteed 
+to reach the global minimum, given enough time and proper learning hyperparameters. 
+However, when talking of a multi-layer perceptron, the presence of multiple layers and non-linearities in an MLP makes the optimization landscape non-convex. 
+There can be multiple local minima, saddle points, and plateaus. Finding the global minimum is not guaranteed, making the training process, 
+most of the times, more complex.\\
+In short, the claim is true. A logistic regression model is less expressive than a multi-layer perceptron with ReLU activations because it can only 
+represent linear relationships, whereas MLPs can capture non-linearities. Logistic regression models are easier to train because they involve 
+convex optimization, unlike the non-convex problem of training MLPs.
+
 \subsubsection{Question 1.2 b)}
 
 \section{Question 2}

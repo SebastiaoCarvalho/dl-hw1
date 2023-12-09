@@ -27,29 +27,29 @@ Medical image classification with linear classifiers and neural networks.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{"plots/1_1_a.png"}
-    \caption{Classification of points using the function \( f \)}
+    \caption{Perceptron Training and Validation Accuracy}
     \label{1.1.a Plot}
 \end{figure}
 
 The final test accuracy was 0.3422.
 
 \subsubsection{Question 1.1 b)}
-\paragraph{Answer} After running the code, the following plots were generated, for learning rate $\eta = 0.01$ and $\eta = 0.001$, respectively:
+\paragraph{Answer} After running the code, the following plots were generated for learning rates $\eta = 0.01$ and $\eta = 0.001$, respectively:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{"plots/1_1_b_001.png"}
-    \caption{Classification of points using the function \( f \)}
+    \caption{Logistic Regression Accuracy with Learning Rate $\eta = 0.01$}
     \label{1.1.b 0.01 Plot}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{"plots/1_1_b_0001.png"}
-    \caption{Classification of points using the function \( f \)}
+    \caption{Logistic Regression Accuracy with Learning Rate $\eta= 0.001$}
     \label{1.1.b 0.0001 Plot}
 \end{figure}
 
-The final test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
+The final test accuracies were 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$, respectively.
 
 \subsection{Question 1.2}
 
@@ -91,9 +91,9 @@ In this setup:
     \item For \( x = (-1, +1) \) or \( x = (+1, -1) \), the sum \( \sum x_i = 0 \). This falls within the range [-1, 1], so \( f(x) = 1 \) for these inputs.
 \end{itemize}
 
-The visual representation of the points can be seen in Figure \ref{fig:points}. The red points represent the inputs that should be classified as \( +1 \) and the blue points represent the inputs that should be classified as \( -1 \).
+The visual representation of the points can be seen in Figure \ref{3a Plot}. The red points represent the inputs that should be classified as \( +1 \) and the blue points represent the inputs that should be classified as \( -1 \).
 
-The critical point here is that a single perceptron is fundamentally a linear classifier, which means it can only separate data points using a straight line in the feature space. However, in this example, there is no straight line that can separate these points accordingly in a 2D space to satisfy the function \( f \).
+The critical point here is that a single perceptron is fundamentally a linear classifier, which means it can only separate data points using a straight line in the feature space. However, in this example, there is no straight line that can separate these points accordingly in a 2D space, to satisfy the function \( f \).
 
 This example thus serves as a counter-example proving that the given function cannot generally be computed with a single perceptron, as it requires a non-linear decision boundary which a single perceptron cannot provide. 
 

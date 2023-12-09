@@ -3,6 +3,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{bm}
 \usepackage[top=2cm]{geometry}
 
 \title{Question 3}
@@ -22,17 +23,17 @@ Show that the function above cannot generally be computed with a single perceptr
 
 \paragraph{Answer}
 
-To demonstrate that the specified Boolean function cannot be computed by a single perceptron, we simply need to show 
-that there exists a counter-example where the data is not linearly separable.\\
+To demonstrate that the specified Boolean function cannot be computed by a single perceptron, we simply need to show
+that there exists a counter-example where the data is not linearly separable.
 
 Let's consider a simple case where \( D = 2 \), \( A = -1 \), and \( B = 1 \). The function \( f \) is defined as:
 
 \[
-f(x) = 
-\begin{cases} 
-1 & \text{if } \sum_{i=1}^{D} x_i \in [-1, 1], \\
--1 & \text{otherwise}
-\end{cases}
+    f(x) =
+    \begin{cases}
+        1  & \text{if } \sum_{i=1}^{D} x_i \in [-1, 1], \\
+        -1 & \text{otherwise},
+    \end{cases}
 \]
 
 Now, let's consider the following inputs:
@@ -50,7 +51,7 @@ The visual representation of the points can be seen in Figure \ref{fig:points}. 
 
 The critical point here is that a single perceptron is fundamentally a linear classifier, which means it can only separate data points using a straight line in the feature space. However, in this example, there is no straight line that can separate these points accordingly in a 2D space to satisfy the function \( f \).
 
-This example thus serves as a counter-example proving that the given function cannot generally be computed with a single perceptron, as it requires a non-linear decision boundary which a single perceptron cannot provide. 
+This example thus serves as a counter-example proving that the given function cannot generally be computed with a single perceptron, as it requires a non-linear decision boundary which a single perceptron cannot provide.
 
 \begin{figure}[H]
     \centering
@@ -61,42 +62,44 @@ This example thus serves as a counter-example proving that the given function ca
 
 \subsubsection*{(b) Neural Network With Hard Threshold Activation (15 points)}
 
-Show that the function above can be computed with a multilayer perceptron with a single hidden layer with two hidden 
-units and hard threshold activations \(g: \mathbb{R} \rightarrow \{-1,+1\}\) with
-
-and where all the weights and biases are integers (positive, negative, or zero). Provide all the weights and biases of such network, and ensure 
-that the resulting network is robust to infinitesimal perturbation of the inputs, i.e., the resulting function 
-h : $\mathbb{R}^{D} \rightarrow \mathbb{R}$ should be such that $limt \rightarrow 0 h(x+tv) = h(x) = f(x)$ for 
-any $x \in \{-1,+1\}^{D}$ and $\in \mathbb{R}^{D}.$
+Show that the function above can be computed with a multilayer perceptron with a single hidden layer with two hidden units and hard threshold activations \( g: \mathbb{R} \rightarrow \{-1,+1\} \) with
+\[
+    g(z) = \text{sign}(z) =
+    \begin{cases}
+        +1 & \text{if } z \geq 0, \\
+        -1 & \text{otherwise},
+    \end{cases}
+\]
+and where all the weights and biases are integers (positive, negative, or zero).
+Provide all the weights and biases of such network, and ensure that the resulting network is robust to infinitesimal perturbation of the inputs, i.e., the resulting function \( h: \mathbb{R}^D \rightarrow \mathbb{R} \) should be such that
+\( \lim_{t \rightarrow 0} h(\bm{x} + t\bm{v}) = h(\bm{x}) = f(\bm{x}) \) for any \( \bm{x} \in \{-1,+1\}^D \) and \( \bm{v} \in \mathbb{R}^D \).
 
 \paragraph{Answer}
 
-First we will start by defining the weights and biases of the network. We will use the notation
-\( W^{(l)} \) to represent the weights of the \( l \)-th layer, and \( b^{(l)} \) to represent the biases of the \( l \)-th layer. \\
+Firstly, we will start by defining the weights and biases of the network. We will use the notation
+\( W^{(l)} \) and \( b^{(l)} \) to represent the weights and the biases, respectively, of the \( l \)-th layer. 
+Consider now: 
 
 \( W^{(1)} = \begin{bmatrix}
-    1 & ... & 1\\
-    -1 & ...  & -1
+    1  & ... & 1  \\
+    -1 & ... & -1
 \end{bmatrix}
-\), where \(W^{(1)}\) is a matrix of size 2 x D, and D is the size of the input vector. \\
+\), where \(W^{(1)}\) is a matrix of size 2 x D, and D is the size of the input vector; 
 
 \(b^{(1)} = \begin{bmatrix}
-    -A\\
+    -A \\
     B
 \end{bmatrix}
-\), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. \\
+\), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. 
 
-The idea behind the weights and biases of the first layer is that we want to verify if the sum of the input vector is within the range [A, B].
-But we have to do this individually, computing the lowe bound condition for the first hidden unit, 
-and the upper bound condition for the second hidden unit. \\
+The idea behind the weights and biases of the first layer, is that we want to verify if the sum of the input vector is within the range [A, B].
+However, we have to do this individually by computing the lower bound condition for the first hidden unit, and the upper bound condition for the second hidden unit. 
 
 That is why we have the weights of the first layer as all 1's for the first row and all -1's for the second row, and the biases as -A and B. \\
-The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it will be 1 if the sum of the input vector is greater than or equal to A, 
-and -1 otherwise. \\
-The second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B, 
-and -1 otherwise. \\
-This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound, 
-and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound. \\
+The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it will be 1 if the sum of the input vector is greater than or equal to A,
+and -1 otherwise. Consequently, the second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B,
+and -1 otherwise. This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound,
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound. 
 
 \( W^{(2)} = \begin{bmatrix}
     1 & 1
@@ -108,11 +111,11 @@ and the second hidden unit's output is 1 if the sum of the input vector respects
 \end{bmatrix}
 \).
 
-\(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND function of the two hidden units. We use this since the output of 
+\(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND function of the two hidden units. We use this since the output of
 the hidden units is either -1 or 1, and computing the AND we can verify if they respect the lower bound and upper bound, and thus
-belong to the range [A, B]. \\
+belong to the range \([A, B]\). 
 
-With this, if h(X) is the resulting function of the network, we have that h(X) = 1 if the sum of the input vector is within the range [A, B], 
-and -1 otherwise, and, thus, h(X) = f(X), and we prove this neural network computes f(X).\\
+With this, if \(h(x)\) is the resulting function of the network, we have that \(h(x) = 1\) if the sum of the input vector is within the range \([A, B]\),
+and -1 otherwise, and, thus, \(h(x) = f(x)\), and we prove this neural network computes \(f(x)\).
 
 \end{document}

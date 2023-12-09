@@ -64,7 +64,7 @@ class FeedforwardNetwork(nn.Module):
         attributes that each FeedforwardNetwork instance has. Note that nn
         includes modules for several activation functions and dropout as well.
         """
-        super(FeedforwardNetwork, self).__init__()
+        super().__init__()
         self.layers = nn.ModuleList()
 
         for i in range(0, layers):
@@ -91,11 +91,13 @@ class FeedforwardNetwork(nn.Module):
         layers, pointwise nonlinear functions, and dropout.
         """
         for i, layer in enumerate(self.layers):
-            x = layer(x)
+            layer_output = layer(x)
             if i != len(self.layers) - 1:
-                x = self.activation(x)
-                x = self.dropout(x)
-        return x
+                activated_output = self.activation(layer_output)
+                x = self.dropout(activated_output)
+            else:
+                output = layer_output
+        return output
 
 def train_batch(X, y, model, optimizer, criterion, **kwargs):
     """
@@ -170,13 +172,13 @@ def main():
     parser.add_argument('-epochs', default=20, type=int,
                         help="""Number of epochs to train for. You should not
                         need to change this value for your plots.""")
-    parser.add_argument('-batch_size', default=1, type=int,
+    parser.add_argument('-batch_size', default=16, type=int,
                         help="Size of training batch.")
-    parser.add_argument('-learning_rate', type=float, default=0.01)
+    parser.add_argument('-learning_rate', type=float, default=0.1)
     parser.add_argument('-l2_decay', type=float, default=0)
-    parser.add_argument('-hidden_size', type=int, default=100)
-    parser.add_argument('-layers', type=int, default=1)
-    parser.add_argument('-dropout', type=float, default=0.3)
+    parser.add_argument('-hidden_size', type=int, default=200)
+    parser.add_argument('-layers', type=int, default=2)
+    parser.add_argument('-dropout', type=float, default=0.0)
     parser.add_argument('-activation',
                         choices=['tanh', 'relu'], default='relu')
     parser.add_argument('-optimizer',

@@ -1,4 +1,6 @@
 *.npz
 __pycache__
-*aux
+*.aux
 *.log
+*.out
+*.toc

@@ -26,7 +26,7 @@ class LogisticRegression(nn.Module):
         pytorch to make weights and biases, have a look at
         https://pytorch.org/docs/stable/nn.html
         """
-        super(LogisticRegression, self).__init__()
+        super().__init__()
         self.layer = nn.Linear(n_features, n_classes)
 
     def forward(self, x, **kwargs):

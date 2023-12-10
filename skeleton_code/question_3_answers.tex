@@ -176,25 +176,37 @@ and the second hidden unit's output is 1 if the sum of the input vector respects
 With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
 that are within the range \([A - \epsilon, B + \epsilon]\).
 
-\subsubsection*{(c) MLP with Relu activation (10 points)}
+\subsubsection*{(c) MLP with ReLU activation (10 points)}
 
 Repeat the previous exercise if the hidden units use rectified linear unit activations instead. 
 
 \paragraph{Answer}
 
-The rectified linear unit (Relu) activation function is defined as:
+The rectified linear unit (ReLU) activation function is defined as:
 
 \[ 
-    % g(x) = \left\{
-    % begin{array}{ll}
-    %     x & x \geq 0 \\
-    %     0 & \text{otherwise}
-    % \end{array}
-    function
+    ReLU(x) = 
+    \begin{cases}
+        x & x \geq 0, \\
+        0 & \text{otherwise}
+    \end{cases}
 \]
 
 First we will start by defining the weights and biases of the network. We will use the same notation as the previous 
 exercise for the weights and biases. \\
+
+The idea behind the weights and biases of the first layer is somewhat the opposite of the first exercise. We want the hidden units to output 0
+if the sum of the input vector respects one of the bounds, and a positive value otherwise. \\
+But like in the previous exercise, we must do this individually, computing the lower bound condition for the first hidden unit, 
+and the upper bound condition for the second hidden unit, same as the previous exercise. \\
+
+For this we have to use the weights and biases to represent the equations that represent the bound but with less or equal to 0, in order for
+the ReLU output to be 0: \\
+
+$ \sum_{i=1}^{D} x_i \geq A \Rightarrow -A + \sum_{i=1}^{D} x_i \geq 0 \Rightarrow -\sum_{i=1}^{D} x_i + A \leq 0$. \\
+$ \sum_{i=1}^{D} x_i \leq B \Rightarrow -B + \sum_{i=1}^{D} x_i \leq 0$. \\
+
+To represent these equations with weights and biases, we have: \\
 
 \( W^{(1)} = \begin{bmatrix}
     -1 & ...  & -1\\
@@ -208,19 +220,24 @@ exercise for the weights and biases. \\
 \end{bmatrix}
 \), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. \\
 
-The idea behind the weights and biases of the first layer is somewhat the opposite of the first exercise. We want the hidden units to output 0
-if the sum of the input vector respects one of the bounds, and a positive value otherwise.\\
+Let's consider $Z^{(1)}$ as the pre-activated output of the first layer. This means $Z^{(1)} = W^{(1)}X + b^{(1)}$, and
+$Z^{(1)} = \begin{bmatrix}
+    A -\sum_{i=1}^{D} x_i\\
+    -B + \sum_{i=1}^{D} x_i
+\end{bmatrix}
+$. \\
 
-But like in the previous exercise, we must do this individually, computing the lower bound condition for the first hidden unit, 
-and the upper bound condition for the second hidden unit, same as the previous exercise. \\
-
-That is why we have the weights of the first layer as all -1's for the first row and all 1's for the second row, and the biases as A and -B. \\
-The first hidden unit's pre-activated output will be $g(A - \sum_{i=1}^{D} x_i)$, and the hidden unit's output 
-will be 0 if the sum of the input vector is greater than or equal to A, and a positive value ($g(A - \sum_{i=1}^{D} x_i)$) otherwise. \\
-The second hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - B)$, and it will be 1 if the sum of the input vector is less than or equal to B, 
-and -1 otherwise. \\
+The first hidden unit's pre-activated output will be $g(Z_1^{(1)})$, and the hidden unit's activated output 
+will be 0 if the sum of the input vector is greater than or equal to A, and a positive value ($g(Z_1^{(1)})$) otherwise. \\
+The second hidden unit's output will be $g(Z_2^{(1)})$, and it will be 0 if the sum of the input vector is less than or equal to B, 
+and a positive value ($g(Z_2^{(1)})$) otherwise. \\
 This means the first hidden unit's output is 0 if the sum of the input vector respects the lower bound, 
 and the second hidden unit's output is 0 if the sum of the input vector respects the upper bound. \\
+
+For the second layer, we want only to accept values that respect both bounds, so we use our weights and biases to verify if any of the values
+of the hidden layer are positive, and if they are, we want to output -1, because it means one of the bounds was not respected. \\
+
+For this we have: \\
 
 \( W^{(2)} = \begin{bmatrix}
     -1 & -1
@@ -233,16 +250,17 @@ and the second hidden unit's output is 0 if the sum of the input vector respects
 \).
 
 The idea behind \(W^{(2)}\) and \(b^{(2)}\) is to compute a function similar to the logic AND, but since this time our inputs are not in 
-{-1, 1}, we cannot use the weights used in the previous exercise.\\
+{-1, 1}, we cannot use the weights used in the previous exercise.
 Since each hidden unit outputs 0 if the sum of the input vector respects one of the bounds, and a positive value otherwise, we can set the 
 weights of the second layer as -1's, and the bias as 0, so that the pre-activated output of the network is 0 if the sum of the input vector 
-respects both bounds, and a negative value otherwise.\\
+respects both bounds, and a negative value otherwise. \\
+
 Since the output this time is not in {-1, 1}, we need to apply an activation function to the pre-activated output of the network. For this we can use
-the sign function, which will output 1 if the pre-activated output is positive or zero, and -1 otherwise.\\
+the sign function, which will output 1 if the pre-activated output is positive or zero, and -1 otherwise. \\
 Since when an input vector respects both bounds, the pre-activated output of the network is 0, the sign function will output 1. If the input doesn't
-respect both bounds, the pre-activated output of the network will be negative, and the sign function will output -1.\\
+respect both bounds, the pre-activated output of the network will be negative, and the sign function will output -1. \\
 
 With this, if h(X) is the resulting function of the network, we have that h(X) = 1 if the sum of the input vector is within the range [A, B], 
-and -1 otherwise, and, thus, h(X) = f(X), and we prove this neural network computes f(X).\\
+and -1 otherwise, and, thus, h(X) = f(X), and we prove this neural network computes f(X). \\
 
 \end{document}

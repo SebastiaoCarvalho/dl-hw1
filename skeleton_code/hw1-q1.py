@@ -74,31 +74,58 @@ class MLP(object):
     # in main().
     def __init__(self, n_classes, n_features, hidden_size):
         # Initialize an MLP with a single hidden layer.
-        raise NotImplementedError
+        self.b1 = np.zeros((hidden_size, 1))
+        self.b2 = np.zeros((n_classes, 1))
+        self.W1 = np.random.normal(0.1, 0.01, (hidden_size, n_features))
+        self.W2 = np.random.normal(0.1, 0.01, (n_classes, hidden_size))
 
     def predict(self, X):
-        # Compute the forward pass of the network. At prediction time, there is
-        # no need to save the values of hidden nodes, whereas this is required
-        # at training time.
-        raise NotImplementedError
+        z1 = np.dot(self.W1, X.T) + self.b1
+        x1 = np.array(list(map(lambda x: list(map(lambda k : k if k > 0 else 0, x)), z1)))
+        z2 = np.dot(self.W2, x1) + self.b2
+        x2 = self.softmax(z2)
+        return x2.argmax(axis=0)
 
     def evaluate(self, X, y):
         """
         X (n_examples x n_features)
         y (n_examples): gold labels
         """
-        # Identical to LinearModel.evaluate()
+        # Identical to LinearModel.evaluate() 
         y_hat = self.predict(X)
         n_correct = (y == y_hat).sum()
         n_possible = y.shape[0]
         return n_correct / n_possible
+    
+    def softmax(self, x):
+        e = np.exp(x - np.max(x))
+        return e / np.sum(e)
+
+    def update_weight(self, x_i, y_i, learning_rate=0.001):
+        z1 = np.dot(self.W1, x_i) + self.b1
+        x1 = np.array(list(map(lambda x: list(map(lambda k : k if k > 0 else 0, x)), z1)))
+        z2 = np.dot(self.W2, x1) + self.b2
+        x2 = self.softmax(z2)
+        e_y = np.zeros(x2.shape)
+        e_y[y_i] = 1
+        delta2 = x2 - e_y
+        derivative1 = np.array(list(map(lambda x: list(map(lambda k : 1 if k > 0 else 0, x)), z1)))
+        delta1 = np.dot(self.W2.T, delta2) * derivative1
+        self.W2 -= learning_rate *  np.dot(delta2, x1.T)
+        self.W1 -= learning_rate * np.dot(delta1, x_i.T)
+        self.b2 -= learning_rate * delta2
+        self.b1 -= learning_rate * delta1
+        return -np.sum(e_y * np.log(x2))
 
     def train_epoch(self, X, y, learning_rate=0.001):
         """
         Dont forget to return the loss of the epoch.
         """
-        raise NotImplementedError
-
+        loss = 0
+        for x_i, y_i in zip(X, y):
+            x_i = np.reshape(x_i, (-1, 1)) # convert to column vector
+            loss += self.update_weight(x_i, y_i, learning_rate)
+        return loss/len(X)
 
 def plot(epochs, train_accs, val_accs):
     plt.xlabel('Epoch')

@@ -134,8 +134,60 @@ Looking at the plots, we can see that the best configuration, in terms of final 
 \subsection{Question 2.2}
 
 \subsubsection{Question 2.2 a)}
+\paragraph{Answer} After running the code, the following plots were generated:
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-16-lr-0.1-epochs-20-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for batch size of 16}
+    \label{2.2a batch size 16}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-1024-lr-0.1-epochs-20-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for batch size of 1024}
+    \label{2.2a batch size 1024}
+\end{figure}
+
+The best test accuracy was 0.7788 for batch size 16.
+
 \subsubsection{Question 2.2 b)}
+\paragraph{Answer} After running the code, the best and worst configurations were for learning rates of 0.1 and 1, respectively:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-16-lr-0.1-epochs-20-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for learning rate of 0.1}
+    \label{2.2b learning rate 0.1}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-16-lr-1.0-epochs-20-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for learning rate of 1}
+    \label{2.2b learning rate 1}
+\end{figure}
+
+The best test accuracy was 0.7788 for learning rate 0.1.
+
 \subsubsection{Question 2.2 c)}
+\paragraph{Answer} After running the code, the best configuration was for the model with a dropout probability of 0.2 and the worst one was for the default model.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-256-lr-0.1-epochs-150-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for default model}
+    \label{2.2c default model}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-256-lr-0.1-epochs-150-hidden-200-dropout-0.2-l2-0-layers-2-act-relu-opt-sgd.png"}
+    \caption{Training and validation loss for model with dropout of 0.2}
+    \label{2.2c dropout 0.2}
+\end{figure}
+
+The best test accuracy was 0.8034 for the model with dropout probability of 0.2.
 
 \section{Question 3}
 

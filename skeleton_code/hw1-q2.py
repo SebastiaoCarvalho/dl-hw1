@@ -275,7 +275,7 @@ def main():
     plt.savefig(f'plots/{opt.model}-training-loss-{config}.png', bbox_inches='tight')
     accuracy = { "Valid Accuracy": valid_accs }
     plot(epochs, accuracy, name=f'{opt.model}-validation-accuracy-{config}', ylim=(0., 1.))
-    plt.savefig(f'plots/{opt.model}-validation-accuracy-{config}', bbox_inches='tight')
+    plt.savefig(f'plots/{opt.model}-validation-accuracy-{config}.png', bbox_inches='tight')
 
 
 if __name__ == '__main__':

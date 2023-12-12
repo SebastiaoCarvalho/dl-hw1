@@ -149,6 +149,12 @@ Looking at the plots, we can see that the best configuration, in terms of final 
     \label{2.2a batch size 1024}
 \end{figure}
 
+This exercise explores the trade-off between train time and performance when using different batch sizes. When training with smaller batch sizes, the model updates weights more frequently,
+since each update is working with less data each time, and thus, takes more time to train when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can 
+provide a regularizing effect avoiding overfitting. When compared to larger batch sizes, smaller batch sizes are more noisy, since they are more sensitive to the data they are working with. This noise can be positive, since it can help the model
+to avoid converging to a local minimum and, that way, impoves the chances of finding the global minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
+model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024.
+
 The best test accuracy was 0.7788 for batch size 16.
 
 \subsubsection{Question 2.2 b)}
@@ -168,7 +174,12 @@ The best test accuracy was 0.7788 for batch size 16.
     \label{2.2b learning rate 1}
 \end{figure}
 
-The best test accuracy was 0.7788 for learning rate 0.1.
+This exercise explores the trade-off between a high and low learning rate. When using a high learning rate, the model converges faster, since it is taking bigger steps towards the minimum. 
+However, this can lead to problems, since the model can overshoot the minimum and diverge. On the other hand, when using a low learning rate, the model takes smaller steps towards 
+the minimum and thus, it takes more time to converge. This can be a good thing, since it can avoid overshooting the minimum and diverging. Important to note, that for a very low learning rate,
+the model can get stuck in a local minimum, not achieving the best possible accuracy. For our specific case, the model with learning rate 1 didn't manage to converge, since it was taking steps too big and
+overshooting the minimum, as we can see in the Figure \ref{2.2b learning rate 1}. For the learning rates 0.01 and 0.001, since the convergence is slower, 
+the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7788 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy.
 
 \subsubsection{Question 2.2 c)}
 \paragraph{Answer} After running the code, the best configuration was for the model with a dropout probability of 0.2 and the worst one was for the default model.
@@ -187,7 +198,13 @@ The best test accuracy was 0.7788 for learning rate 0.1.
     \label{2.2c dropout 0.2}
 \end{figure}
 
-The best test accuracy was 0.8034 for the model with dropout probability of 0.2.
+In this exercise, we explore two different techniques to avoid overfitting. The base model, with no L2 regularization or dropout, 
+suffered from overfitting, as we can see in the Figure \ref{2.2c default model}. To avoid this, we started with L2 regularization,
+which adds a penalty term to the loss function, forcing the model to learn smaller weights, encouraging the model to find simpler solutions and,
+that way, reducing the impact of noisy or irrelevant features. We also tested dropout, which is a technique that randomly drops a proportion of 
+the network's nodes during each training epoch, forcing the network to avoid relying too heavily on any one feature. Both techniques were able to
+reduce the overfitting, but the model with dropout of 0.2 was the one that achieved the best test accuracy, with an accuracy of 0.8034.
+
 
 \section{Question 3}
 

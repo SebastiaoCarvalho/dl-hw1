@@ -145,8 +145,9 @@ Medical image classification with an autodiff toolkit.
     \label{2.1 0.001 Acc Plot}
 \end{figure}
 
-The test accuracies were 0.5577, 0.6200 and 0.6503 for $\eta = 0.1$, $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
-Looking at the plots, we can see that the best configuration, in terms of final valdiation accuracy, was $\eta = 0.01$.\\
+The test accuracies were 0.5577, 0.6200 and 0.6503 for $\eta = 0.1$, $\eta = 0.01$ and $\eta = 0.001$ respectively.
+
+Looking at the plots, we can see that the best configuration, in terms of final valdiation accuracy, was $\eta = 0.01$.
 
 \subsection{Question 2.2}
 
@@ -172,7 +173,7 @@ provide a regularizing effect avoiding overfitting. When compared to larger batc
 to avoid converging to a local minimum and, that way, impoves the chances of finding the global minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
 model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024.
 
-The best test accuracy was 0.7788 for batch size 16.
+The best test accuracy was 0.7675 for batch size 16.
 
 \subsubsection{Question 2.2 b)}
 \paragraph{Answer} After running the code, the best and worst configurations were for learning rates of 0.1 and 1, respectively:
@@ -192,11 +193,11 @@ The best test accuracy was 0.7788 for batch size 16.
 \end{figure}
 
 This exercise explores the trade-off between a high and low learning rate. When using a high learning rate, the model converges faster, since it is taking bigger steps towards the minimum. 
-However, this can lead to problems, since the model can overshoot the minimum and diverge. On the other hand, when using a low learning rate, the model takes smaller steps towards 
+However, this can lead to problems, since the model can overshoot the optimal minimum. On the other hand, when using a low learning rate, the model takes smaller steps towards 
 the minimum and thus, it takes more time to converge. This can be a good thing, since it can avoid overshooting the minimum and diverging. Important to note, that for a very low learning rate,
-the model can get stuck in a local minimum, not achieving the best possible accuracy. For our specific case, the model with learning rate 1 didn't manage to converge, since it was taking steps too big and
-overshooting the minimum, as we can see in the Figure \ref{2.2b learning rate 1}. For the learning rates 0.01 and 0.001, since the convergence is slower, 
-the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7788 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy.
+the model can get stuck in a local minimum, not achieving the best possible accuracy. For our specific case, the model with learning rate 1 seems to have converged too quickly on a non optimal minimum,
+since the model does not improve further after the first ephocs, as we can see in the Figure \ref{2.2b learning rate 1}. For the learning rates 0.01 and 0.001, since the convergence is slower, 
+the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7675 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy.
 
 \subsubsection{Question 2.2 c)}
 \paragraph{Answer} After running the code, the best configuration was for the model with a dropout probability of 0.2 and the worst one was for the default model.
@@ -215,12 +216,17 @@ the model was not able to reach a good accuracy in 20 epochs. The best test accu
     \label{2.2c dropout 0.2}
 \end{figure}
 
-In this exercise, we explore two different techniques to avoid overfitting. The base model, with no L2 regularization or dropout, 
-suffered from overfitting, as we can see in the Figure \ref{2.2c default model}. To avoid this, we started with L2 regularization,
-which adds a penalty term to the loss function, forcing the model to learn smaller weights, encouraging the model to find simpler solutions and,
-that way, reducing the impact of noisy or irrelevant features. We also tested dropout, which is a technique that randomly drops a proportion of 
-the network's nodes during each training epoch, forcing the network to avoid relying too heavily on any one feature. Both techniques were able to
-reduce the overfitting, but the model with dropout of 0.2 was the one that achieved the best test accuracy, with an accuracy of 0.8034.
+
+For the base model proposed in this exercise, although the validation loss starts to slow down its decrease, there are no clear signs 
+of overfitting. 
+
+In this exercise, we explored two different techniques to avoid overfitting. We started by testing the model by applying L2 regularization, which adds 
+a penalty term to the loss function, forcing the model to learn smaller weights, encouraging the model to find simpler solutions and, that way, reducing 
+the impact of noisy or irrelevant features. After that we tested applying a dropout, which is a technique that randomly drops a proportion of 
+the network's nodes during each training epoch, forcing the network to avoid relying too heavily on any one feature. The L2 regularization, only managed to
+a slight improvement in the validation loss's stability. On the other hand, the dropout technique, managed to significantly improve the model's performance,
+as we can see in the Figure \ref{2.2c dropout 0.2}. The best test accuracy was 0.7825 for the model with dropout probability of 0.2.
+
 
 
 \section{Question 3}

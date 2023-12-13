@@ -125,22 +125,55 @@ and -1 otherwise, and, thus, \(h(x) = f(x)\), and we prove this neural network c
 Now we need to prove that the network is robust to infinitesimal perturbation of the inputs. The biggest problem here is that the hard threshold
 activation function is not continuous, and thus we cannot use the continuity of the activation function to prove the continuity of the network. \\
 
-So, to prove that the network is robust to infinitesimal perturbation of the inputs, we need to prove that before it reaches the hard threshold,
-the network is continuous. \\
+As it is right now, the network is not robust to infinitesimal perturbation of the inputs. If we have an input vector $X = \begin{bmatrix}
+    1
+\end{bmatrix}
+$, and we perturb it to make it $X' = \begin{bmatrix}
+    1 + \epsilon
+\end{bmatrix}
+$, with $\epsilon \in \mathbb{R} and \epsilon > 0$, we have that $h(X) = 1$ and $h(X') = -1$, 
+and thus the network is not robust to infinitesimal perturbation of the inputs. \\
 
-So in sum, to prove our network is robust to infinitesimal perturbation of the inputs, we need to prove that 
-$\lim_{t\rightarrow0} W^{(1)}(X + tV) + b^{(1)} =  W^{(1)}X + b^{(1)}, V \in \mathbb{R}^D$.
+To prevent this from happening, we need to change the interval of values we want to accept from $[A, B]$ to $[A - \epsilon, B + \epsilon]$.
+This means we have to create new inequations for the lower bound and upper bound conditions, 
+and thus we have to change the weights and biases of the first layer.
 
-$\lim_{t\rightarrow0} W^{(1)}(X + tV) + b^{(1)} = \lim_{t\rightarrow0} W^{(1)}X + W^{(1)}tV + b^{(1)}$.
+The first hidden unit needs to represent the following inequation:
 
-Since $W^{(1)}$ is a matrix, and $t$ is a scalar, and we know that a scalar multiplied by a matrix is a matrix, we know that:
+$(\sum_{i=1}^{D} x_i) \geq A - \epsilon \iff (\sum_{i=1}^{D} x_i) - A + \epsilon \geq 0$
 
-$\lim_{t\rightarrow0} W^{(1)}tV = 0$, which means $\lim_{t\rightarrow0} W^{(1)}(X + tV) + b^{(1)} = W^{(1)}X + b^{(1)}$.
+The second hidden unit needs to represent the following inequation:
 
-If $Z^{(1)} = W^{(1)}X + b^{(1)}$, is continuous, we know that even tho the activation function is not continuous, the first layer of the network is robust 
-to infinitesimal perturbation of the inputs. \\
+$(\sum_{i=1}^{D} x_i) \leq B + \epsilon \iff B - (\sum_{i=1}^{D} x_i) - \epsilon \geq 0$
 
-Since the second layer uses the same calculation as the first one for the pre-activation, and we don't use an activation function, 
-we know that the second layer is also robust to infinitesimal perturbation of the inputs. \\
+Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can say that $\epsilon = k1/k2$, where $k1, k2 \in \mathbb{Z}$, and $k1 > 0, k2 > 0$ and $k1 < k2
+(\epsilon < 1)$.
+This way we can rewrite the inequations as:
+
+$(\sum_{i=1}^{D} x_i) - A + k1/k2 \geq 0 \iff k2(\sum_{i=1}^{D} x_i) - k2A + k1 \geq 0$
+
+$B - (\sum_{i=1}^{D} x_i) - k1/k2 \geq 0 \iff k2B - k2(\sum_{i=1}^{D} x_i) - k1 \geq 0$
+
+This way, we can rewrite the weights and biases of the first layer as:
+
+\( W^{(1)} = \begin{bmatrix}
+    k2  & ... & k2  \\
+    -k2 & ... & -k2
+\end{bmatrix}
+\)
+
+\(b^{(1)} = \begin{bmatrix}
+    -k2A + k1 \\
+    k2B - k1
+\end{bmatrix}
+\)
+
+With this, we have that the first hidden unit's output will be $g(k2(\sum_{i=1}^{D} x_i) - k2A + k1)$, and it will be 1 if the sum of the 
+input vector is greater than or equal to A - $\epsilon$, and -1 otherwise. The second hidden unit's output will be $g(k2B - k2(\sum_{i=1}^{D} x_i) - k1)$,
+and it will be 1 if the sum of the input vector is less than or equal to B + $\epsilon$, and -1 otherwise. \\
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound,
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound. \\
+With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
+that are within the range \([A - \epsilon, B + \epsilon]\).
 
 \end{document}

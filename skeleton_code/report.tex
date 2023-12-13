@@ -1,8 +1,10 @@
 \documentclass{article}
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{float}
+\usepackage{bm}
 \usepackage[top=2cm]{geometry}
 
 \title{Deep Learning - Homework 1}
@@ -266,6 +268,152 @@ This example thus serves as a counter-example proving that the given function ca
     \label{3a Plot}
 \end{figure}
 \subsubsection{Question 3.1 b)}
+\paragraph{Answer}
+
+Firstly, we will start by defining the weights and biases of the network. We will use the notation
+\( W^{(l)} \) and \( b^{(l)} \) to represent the weights and the biases, respectively, of the \( l \)-th layer. 
+Consider now: 
+
+\bigskip
+
+\( W^{(1)} = \begin{bmatrix}
+    1  & ... & 1  \\
+    -1 & ... & -1
+\end{bmatrix}
+\), where \(W^{(1)}\) is a matrix of size 2 x D, and D is the size of the input vector.
+
+\(b^{(1)} = \begin{bmatrix}
+    -A \\
+    B
+\end{bmatrix}
+\), where A is the lower bound of the sum of the input vector, and B is the upper bound of the sum of the input vector. 
+
+\bigskip
+
+The idea behind the weights and biases of the first layer is that we want to verify if the sum of the input vector is within the range [A, B].
+However, we have to do this individually, computing the lower bound condition for the first hidden unit, 
+and the upper bound condition for the second hidden unit.
+
+That is why we have the weights of the first layer as all 1's for the first row and all -1's for the second row, and the biases as -A and B.
+
+\bigskip
+
+If $Z^{(1)}$ is the pre-activation of the first layer, we have that $Z^{(1)} = W^{(1)}X + b^{(1)}$.
+The first hidden unit's output will be $g((\sum_{i=1}^{D} x_i) - A)$, and it will be 1 if the sum of the input vector is greater than or equal to A, 
+and -1 otherwise.
+The second hidden unit's output will be $g(B - (\sum_{i=1}^{D} x_i))$, and it will be 1 if the sum of the input vector is less than or equal to B, 
+and -1 otherwise.
+
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound, 
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound.
+
+\bigskip
+
+\( W^{(2)} = \begin{bmatrix}
+    1 & 1
+\end{bmatrix}
+\).
+
+\medskip
+
+\(b^{(2)} = \begin{bmatrix}
+    -1
+\end{bmatrix}
+\).
+
+\bigskip
+
+\(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND function of the two hidden units. We use this since the output of
+the hidden units is either -1 or 1, and computing the AND we can verify if they respect both the lower bound and upper bound, and thus
+belong to the range \([A, B]\). 
+
+With this, if \(h(x)\) is the resulting function of the network, we have that \(h(x) = 1\) if the sum of the input vector is within the range \([A, B]\),
+and -1 otherwise, and, thus, \(h(x) = f(x)\), and we prove this neural network computes \(f(x)\).
+
+\bigskip
+
+Now we need to make sure our network is robust to infinitesimal perturbation of the inputs.
+As it is right now, the network is not robust to infinitesimal perturbation of the inputs. If we have an input vector $X = \begin{bmatrix}
+    1
+\end{bmatrix}
+$, and we perturb it to make it $X' = \begin{bmatrix}
+    1 + \epsilon
+\end{bmatrix}
+$, with $\epsilon \in \mathbb{R}$ and $\epsilon > 0$. Since $\epsilon$ is a really small number, we have that $h(X) = 1$ and $h(X') = -1$, 
+and thus the current network is not robust to infinitesimal perturbation of the inputs.
+
+\bigskip
+
+To prevent this from happening, we need to change the interval of values we want to accept from $[A, B]$ to $[A - \epsilon, B + \epsilon]$.
+Since the input vector contains only integers, we can say that
+the sum of the input vector is also an integer, and thus we need an $\epsilon$ that is smaller than 1. 
+
+This means we have to create new inequations for the lower bound and upper bound conditions, 
+and thus we have to change the weights and biases of the first layer.
+
+The first hidden unit needs to represent the following inequation:
+
+\bigskip
+
+$(\sum_{i=1}^{D} x_i) \geq A - \epsilon \iff (\sum_{i=1}^{D} x_i) - A + \epsilon \geq 0$
+
+\bigskip
+
+The second hidden unit needs to represent the following inequation:
+
+\bigskip
+
+$(\sum_{i=1}^{D} x_i) \leq B + \epsilon \iff B - (\sum_{i=1}^{D} x_i) - \epsilon \geq 0$
+
+\bigskip
+
+Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can say that $\epsilon = k1/k2$, where $k1, k2 \in \mathbb{Z}$, and $k1 > 0, k2 > 0$ and $k1 < k2
+(\epsilon < 1)$. This way we can rewrite the inequations as:
+
+\bigskip
+
+$(\sum_{i=1}^{D} x_i) - A + k1/k2 \geq 0 \iff k2(\sum_{i=1}^{D} x_i) - k2A + k1 \geq 0$
+
+\bigskip
+
+$B - (\sum_{i=1}^{D} x_i) - k1/k2 \geq 0 \iff k2B - k2(\sum_{i=1}^{D} x_i) - k1 \geq 0$
+
+\bigskip
+
+This way, we can rewrite the weights and biases of the first layer as:
+
+\bigskip
+
+\( W^{(1)} = \begin{bmatrix}
+    k2  & ... & k2  \\
+    -k2 & ... & -k2
+\end{bmatrix}
+\)
+
+\medskip
+
+\(b^{(1)} = \begin{bmatrix}
+    -k2A + k1 \\
+    k2B - k1
+\end{bmatrix}
+\)
+
+\bigskip
+
+With this, we have that the first hidden unit's output will be $g(k2(\sum_{i=1}^{D} x_i) - k2A + k1)$, and it will be 1 if the sum of the 
+input vector is greater than or equal to A - $\epsilon$, and -1 otherwise. The second hidden unit's output will be $g(k2B - k2(\sum_{i=1}^{D} x_i) - k1)$,
+and it will be 1 if the sum of the input vector is less than or equal to B + $\epsilon$, and -1 otherwise.
+
+A possible set of values for $k1$ and $k2$ is $k1 = 1$ and $k2 = 100$. With this, $\epsilon = 0.01$, and we accept values in
+the range $[A - \epsilon, B + \epsilon] = [A - 0.01, B + 0.01]$.
+
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound,
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound.
+
+\bigskip
+
+With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
+that are within the range \([A - \epsilon, B + \epsilon]\).
 \subsubsection{Question 3.1 c)}
 
 \end{document}

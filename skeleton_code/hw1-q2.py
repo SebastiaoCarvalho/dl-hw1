@@ -69,11 +69,11 @@ class FeedforwardNetwork(nn.Module):
         for i in range(0, layers):
             if i == 0:
                 self.layers.append(nn.Linear(n_features, hidden_size))
-            elif i == layers-1:
-                self.layers.append(nn.Linear(hidden_size, n_classes))
             else:
                 self.layers.append(nn.Linear(hidden_size, hidden_size))
 
+        self.layers.append(nn.Linear(hidden_size, n_classes))
+        
         if activation_type == "tanh":
             self.activation = nn.Tanh()
         elif activation_type == "relu":

@@ -388,7 +388,8 @@ $(\sum_{i=1}^{D} x_i) \leq B + \epsilon \iff B - (\sum_{i=1}^{D} x_i) - \epsilon
 
 \bigskip
 
-Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can consider that $\epsilon = k1/k2$, where $k1, k2 \in \mathbb{Z}$, 
+Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can consider that $\epsilon = k1/k2$ (we are assuming that $\epsilon$
+is a fractional number and not irrational), where $k1, k2 \in \mathbb{Z}$, 
 and $k1 > 0, k2 > 0$ and $k1 < k2 (\epsilon < 1)$. This way we can rewrite the inequations as:
 
 \bigskip
@@ -458,8 +459,9 @@ exercise for the weights and biases.
 
 \bigskip
 
-The idea behind the weights and biases of the first layer is somewhat the opposite of the first exercise. We want the hidden units to output 0
-if the sum of the input vector respects one of the bounds, and a positive value otherwise.
+The idea behind the weights and biases of the first layer is somewhat the opposite of the first exercise, since this time we want our innequations
+to use $\leq 0$ instead of $\geq 0$. We want the hidden units to output 0 if the sum of the input vector respects one of the bounds, 
+and a positive value otherwise.
 
 But like in the previous exercise, we must do this individually, computing the lower bound condition for the first hidden unit, 
 and the upper bound condition for the second hidden unit, same as the previous exercise.
@@ -588,8 +590,8 @@ $ \sum_{i=1}^{D} x_i \leq B + \epsilon \Rightarrow -B - \epsilon + \sum_{i=1}^{D
 
 \bigskip
 
-Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can say that $\epsilon = k1/k2$, where $k1, k2 \in \mathbb{Z}$, and $k1 > 0, k2 > 0$ and $k1 < k2
-(\epsilon < 1)$.
+Since $\epsilon \in \mathbb{R}$ and $\epsilon > 0$, we can consider that $\epsilon = k1/k2$ (we are assuming that $\epsilon$
+is a fractional number and not irrational), where $k1, k2 \in \mathbb{Z}$, and $k1 > 0, k2 > 0$ and $k1 < k2 (\epsilon < 1)$.
 
 \bigskip
 

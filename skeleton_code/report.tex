@@ -422,12 +422,21 @@ This way, we can rewrite the weights and biases of the first layer as:
 
 \bigskip
 
-With this, we have that the first hidden unit's output will be $g(k2(\sum_{i=1}^{D} x_i) - k2A + k1)$, and it will be 1 if the sum of the 
-input vector is greater than or equal to A - $\epsilon$, and -1 otherwise. The second hidden unit's output will be $g(k2B - k2(\sum_{i=1}^{D} x_i) - k1)$,
+If $Z^{(1)}$ is the pre-activation of the first layer, we have that $Z^{(1)} = W^{(1)}X + b^{(1)}$ and
+$Z^{(1)} = \begin{bmatrix}
+    k2(\sum_{i=1}^{D} x_i) - k2A + k1\\
+    k2B - k2(\sum_{i=1}^{D} x_i) - k1
+\end{bmatrix}
+$.
+
+\bigskip
+
+With this, we have that the first hidden unit's output will be $g(Z^{(1)}_1)$, and it will be 1 if the sum of the 
+input vector is greater than or equal to A - $\epsilon$, and -1 otherwise. The second hidden unit's output will be $g(Z^{(1)}_2)$,
 and it will be 1 if the sum of the input vector is less than or equal to B + $\epsilon$, and -1 otherwise.
 
-A possible set of values for $k1$ and $k2$ is $k1 = 1$ and $k2 = 100$. With this, $\epsilon = 0.01$, and we accept values in
-the range $[A - \epsilon, B + \epsilon] = [A - 0.01, B + 0.01]$.
+A possible set of values for $k1$ and $k2$ is $k1 = 1$ and $k2 = 10$. With this, $\epsilon = 0.1$, and we accept values in
+the range $[A - \epsilon, B + \epsilon] = [A - 0.1, B + 0.1]$.
 
 This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound,
 and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound.
@@ -473,11 +482,11 @@ the ReLU output to be 0:
 
 \bigskip
 
-$ \sum_{i=1}^{D} x_i \geq A \Rightarrow -A + \sum_{i=1}^{D} x_i \geq 0 \Rightarrow -\sum_{i=1}^{D} x_i + A \leq 0$.
+$ \sum_{i=1}^{D} x_i \geq A \iff -A + \sum_{i=1}^{D} x_i \geq 0 \iff -\sum_{i=1}^{D} x_i + A \leq 0$.
 
 \medskip
 
-$ \sum_{i=1}^{D} x_i \leq B \Rightarrow -B + \sum_{i=1}^{D} x_i \leq 0$.
+$ \sum_{i=1}^{D} x_i \leq B \iff -B + \sum_{i=1}^{D} x_i \leq 0$.
 
 \bigskip
 
@@ -586,7 +595,7 @@ The second hidden unit needs to represent the following inequation:
 
 \bigskip
 
-$ \sum_{i=1}^{D} x_i \leq B + \epsilon \Rightarrow -B - \epsilon + \sum_{i=1}^{D} x_i \leq 0$
+$ \sum_{i=1}^{D} x_i \leq B + \epsilon \iff -B - \epsilon + \sum_{i=1}^{D} x_i \leq 0$
 
 \bigskip
 
@@ -625,12 +634,36 @@ This way, we can rewrite the weights and biases of the first layer as:
 \end{bmatrix}
 \)
 
-With this, we have that the first hidden unit's output will be $g(-k2(\sum_{i=1}^{D} x_i) + k2A - k1)$, and it will be 0 if the sum of the 
-input vector is greater than or equal to A - $\epsilon$, and a positive value ($-k2(\sum_{i=1}^{D} x_i) + k2A - k1$) otherwise. 
-The second hidden unit's output will be $g(-k2B + k2(\sum_{i=1}^{D} x_i) + k1)$, and it will be 0 if the sum of the input vector is less than or equal 
-to B + $\epsilon$, and a positive value ($-k2B + k2(\sum_{i=1}^{D} x_i) + k1$) otherwise. \\
+\bigskip
+
+If $Z^{(1)}$ is the pre-activation of the first layer, we have that $Z^{(1)} = W^{(1)}X + b^{(1)}$ and
+$Z^{(1)} = \begin{bmatrix}
+    -k2(\sum_{i=1}^{D} x_i) + k2A - k1\\
+    -k2B + k2(\sum_{i=1}^{D} x_i) + k1
+\end{bmatrix}
+$.
+
+\bigskip
+
+With this, we have that the first hidden unit's output will be $g(Z^{(1)}_1)$, and it will be 0 if the sum of the 
+input vector is greater than or equal to A - $\epsilon$, and a positive value ($Z^{(1)}_1$) otherwise. 
+The second hidden unit's output will be $g(Z^{(1)}_2)$, and it will be 0 if the sum of the input vector is less than or equal 
+to B + $\epsilon$, and a positive value ($Z^{(1)}_2$) otherwise.
+
 This means the first hidden unit's output is 0 if the sum of the input vector respects the lower bound,
-and the second hidden unit's output is 0 if the sum of the input vector respects the upper bound. \\
+and the second hidden unit's output is 0 if the sum of the input vector respects the upper bound.
+
+\bigskip
+
+A possible set of values for $k1$ and $k2$ is $k1 = 1$ and $k2 = 10$. With this, $\epsilon = 0.1$, and we accept values in
+the range $[A - \epsilon, B + \epsilon] = [A - 0.1, B + 0.1]$.
+
+This means the first hidden unit's output is 1 if the sum of the input vector respects the lower bound,
+and the second hidden unit's output is 1 if the sum of the input vector respects the upper bound.
+
+The second layer remains the same, since we want to compute the AND logic function of the two hidden units, and since the output of
+the hidden units is either -1 or 1, which can be considered boolean, we can compute the AND logic function of the two hidden units.
+
 With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
 that are within the range \([A - \epsilon, B + \epsilon]\).
 

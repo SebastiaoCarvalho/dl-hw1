@@ -195,9 +195,11 @@ of overfitting.
 
 In this exercise, we explored two different techniques to avoid overfitting. We started by testing the model by applying L2 regularization, which adds 
 a penalty term to the loss function, forcing the model to learn smaller weights, encouraging the model to find simpler solutions and, that way, reducing 
-the impact of noisy or irrelevant features. After that we tested applying a dropout, which is a technique that randomly drops a proportion of 
-the network's nodes during each training epoch, forcing the network to avoid relying too heavily on any one feature. The L2 regularization, only managed to
-a slight improvement in the validation loss's stability. On the other hand, the dropout technique, managed to significantly improve the model's performance,
+the impact of noisy or irrelevant features. 
+
+After that we tested applying a dropout, which is a technique that randomly drops a proportion of the network's nodes during each training epoch, 
+forcing the network to avoid relying too heavily on any one feature. The L2 regularization, only managed to a slight improvement in the 
+validation loss's stability. On the other hand, the dropout technique, managed to significantly improve the model's performance,
 as we can see in the Figure \ref{2.2c dropout 0.2}. The best test accuracy was 0.7825 for the model with dropout probability of 0.2.
 
 

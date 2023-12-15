@@ -535,21 +535,21 @@ For this we have:
 \bigskip
 
 The idea behind \(W^{(2)}\) and \(b^{(2)}\) is to compute a function similar to the logic AND, but since this time our inputs are not in 
-{-1, 1}, we cannot use the weights used in the previous exercise.
+\{-1, 1\}, we cannot use the weights used in the previous exercise.
 Since each hidden unit outputs 0 if the sum of the input vector respects one of the bounds, and a positive value otherwise, we can set the 
 weights of the second layer as -1's, and the bias as 0, so that the pre-activated output of the network is 0 if the sum of the input vector 
 respects both bounds, and a negative value otherwise.
 
 \bigskip
 
-Since the pre-activated output this time is not in {-1, 1}, we need to apply an activation function to the pre-activated output of the network. 
+Since the pre-activated output this time is not in \{-1, 1\}, we need to apply an activation function to the pre-activated output of the network. 
 For this we can use the sign function, which will output 1 if the pre-activated output is positive or zero, and -1 otherwise.
 
 Since when an input vector respects both bounds, the pre-activated output of the network is 0, the sign function will output 1. If the input doesn't
 respect both bounds, the pre-activated output of the network will be negative, and the sign function will output -1.
 
-With this, if h(X) is the resulting function of the network, we have that h(X) = 1 if the sum of the input vector is within the range [A, B], 
-and -1 otherwise, and, thus, h(X) = f(X), and we prove this neural network computes f(X).
+With this, if h(x) is the resulting function of the network, we have that h(x) = 1 if the sum of the input vector is within the range [A, B], 
+and -1 otherwise, and, thus, h(x) = f(x), and we prove this neural network computes f(x).
 
 \bigskip
 

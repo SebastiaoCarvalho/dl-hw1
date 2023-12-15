@@ -142,11 +142,15 @@ The test accuracy was 0.6200.
     \label{2.2a batch size 1024}
 \end{figure} 
 
-This exercise explores the trade-off between train time and performance when using different batch sizes. When training with smaller batch sizes, the model updates weights more frequently,
-since each update is working with less data each time, and thus, takes more time to train when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can 
-provide a regularizing effect avoiding overfitting. When compared to larger batch sizes, smaller batch sizes are more noisy, since they are more sensitive to the data they are working with. This noise can be positive, since it can help the model
-to avoid converging to a local minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
-model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024, despite having taken more time to train.
+This exercise explores the trade-off between train time and performance when using different batch sizes. When training with smaller batch sizes, 
+the model updates weights more frequently, since each update is working with less data each time, and thus, takes more time to train 
+when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can provide a regularizing effect avoiding overfitting. 
+
+When compared to larger batch sizes, smaller batch sizes are more noisy, since they are more sensitive to the data they are working with. 
+This noise can be positive, since it can help the model to avoid converging to a local minimum. On the other hand, the noise can also be negative, 
+since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better model generalization and accuracy, 
+despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 
+has a better performance than the one with batch size 1024, despite having taken more time to train.
 
 The best test accuracy was 0.7675 for batch size 16.
 
@@ -667,5 +671,9 @@ Each member contributed to the following questions:
 The divison was done to ensure that each member contributed equally to the project.
 
 \section{Sources}
+
+\begin{itemize}
+    \item Class slides
+\end{itemize}
 
 \end{document}

@@ -69,11 +69,11 @@ class FeedforwardNetwork(nn.Module):
         for i in range(0, layers):
             if i == 0:
                 self.layers.append(nn.Linear(n_features, hidden_size))
-            elif i == layers-1:
-                self.layers.append(nn.Linear(hidden_size, n_classes))
             else:
                 self.layers.append(nn.Linear(hidden_size, hidden_size))
 
+        self.layers.append(nn.Linear(hidden_size, n_classes))
+        
         if activation_type == "tanh":
             self.activation = nn.Tanh()
         elif activation_type == "relu":
@@ -272,8 +272,10 @@ def main():
     else:
         raise ValueError(f"Unknown model {opt.model}")
     plot(epochs, losses, name=f'{opt.model}-training-loss-{config}', ylim=ylim)
+    plt.savefig(f'plots/{opt.model}-training-loss-{config}.png', bbox_inches='tight')
     accuracy = { "Valid Accuracy": valid_accs }
     plot(epochs, accuracy, name=f'{opt.model}-validation-accuracy-{config}', ylim=(0., 1.))
+    plt.savefig(f'plots/{opt.model}-validation-accuracy-{config}.png', bbox_inches='tight')
 
 
 if __name__ == '__main__':

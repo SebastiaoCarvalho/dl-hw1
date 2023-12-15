@@ -37,6 +37,7 @@ Medical image classification with linear classifiers and neural networks.
 The test accuracy was 0.3422.
 
 \subsubsection{}
+\label{1.1.b}
 \paragraph{Answer} After running the code, the following plots were generated for learning rates $\eta = 0.01$ and $\eta = 0.001$, respectively:
 \begin{figure}[H]
     \centering
@@ -52,36 +53,37 @@ The test accuracy was 0.3422.
     \label{1.1.b 0.0001 Plot}
 \end{figure}
 
-The test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
+The test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.
+
 Comparing both charts, we can see that for $\eta = 0.001$, the accuracy increases more slowly, but it reaches a higher value than for $\eta = 0.01$. 
 This is because for $\eta = 0.01$, the algorithm is taking too big steps, and it is not able to converge to a better solution. This can be 
-seen in the chart for $\eta = 0.01$, near epoch 40, when the accuracy drops to an all time low.\\
+seen in the chart for $\eta = 0.01$, near epoch 40, when the accuracy drops to an all time low.
+
 Since the learning rate is too small for $\eta = 0.001$, the algorithm takes longer to reach higher accuracies, but it's also 
-less oscillatory, and it is able to converge to a better solution.\\
+less oscillatory, and it is able to converge to a better solution.
 
 \subsection{}
 
 \subsubsection{}
 
 \paragraph{Answer}
-The answer to this question mainly focus on two topics: how complex the models are, meaning their expressiveness, and how easy they are to train. \\
-Regarding the expressiveness, logistic regression is a linear model that learns a single decision boundary to separate classes. 
-When using pixel values as features, it treats each pixel independently and cannot capture complex patterns such as shapes or textures 
-that might be essential for tasks like image classification.\\ 
+The answer to this question mainly focus on two topics: how complex the models are, meaning their expressiveness, and how easy they are to train. 
+Regarding the expressiveness, logistic regression is a linear model that learns a single decision boundary to separate classes. Because of this
+it can not learn complex decision boundaries such as shapes or textures that might be essential for tasks like image classification.
+
 On the other hand, a multi-layer perceptron can learn non-linear decision boundaries due to its hidden layers and non-linear activation functions like ReLU. 
 Each layer can transform the feature space in a way that makes the data linearly separable by subsequent layers, allowing the MLP to capture 
-complex patterns and relationships in the data.\\
-When it comes to how easy it is to train this models, logistic regression, with its convex cost function, offers a straightforward training guaranteed 
-to reach the global minimum, given enough time and proper learning hyperparameters. 
-However, when talking of a multi-layer perceptron, the presence of multiple layers and non-linearities in an MLP makes the optimization landscape non-convex. 
-There can be multiple local minima, saddle points, and plateaus. Finding the global minimum is not guaranteed, making the training process, 
-most of the times, more complex.\\
+complex patterns and relationships in the data.
+
+When it comes to how easy it is to train this models, logistic regression, offers a straightforward training guaranteed to reach the global minimum, 
+given enough time and proper learning hyperparameters. However, when talking of a multi-layer perceptron, the presence of multiple layers and non-linearities 
+in an MLP makes the optimization curve not convex and so, finding the global minimum is not guaranteed, making the training process, most of the times, more complex.
+
 In short, the claim is true. A logistic regression model is less expressive than a multi-layer perceptron with ReLU activations because it can only 
 represent linear relationships, whereas MLPs can capture non-linearities. Logistic regression models are easier to train because they involve 
 convex optimization, unlike the non-convex problem of training MLPs.
 
 \subsubsection{}
-\label{1.2.b}
 \paragraph{Answer} After running the code, the following plots was generated:
 \begin{figure}[H]
     \centering
@@ -89,7 +91,6 @@ convex optimization, unlike the non-convex problem of training MLPs.
     \caption{MLP Accuracy with Learning Rate $\eta= 0.001$}
     \label{1.2.b 0.001 Plot}
 \end{figure}
-
 
 \begin{figure}[H]
     \centering
@@ -144,7 +145,7 @@ The test accuracy was 0.6200.
 This exercise explores the trade-off between train time and performance when using different batch sizes. When training with smaller batch sizes, the model updates weights more frequently,
 since each update is working with less data each time, and thus, takes more time to train when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can 
 provide a regularizing effect avoiding overfitting. When compared to larger batch sizes, smaller batch sizes are more noisy, since they are more sensitive to the data they are working with. This noise can be positive, since it can help the model
-to avoid converging to a local minimum and, that way, impoves the chances of finding the global minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
+to avoid converging to a local minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
 model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024, despite having taken more time to train.
 
 The best test accuracy was 0.7675 for batch size 16.
@@ -166,12 +167,15 @@ The best test accuracy was 0.7675 for batch size 16.
     \label{2.2b learning rate 1}
 \end{figure}
 
-Similar to the exercise \ref{1.2.b}, in this exercise we explore the influence of different learning rates in the model's performance.
+Similar to the exercise \ref{1.1.b}, in this exercise we explore the influence of different learning rates in the model's performance.
 As it was mentioned before, for high leaning rate values, the model converges faster, since it is taking bigger steps. This can lead to problems, 
 where the model converges to a non optimal minimum, as we can see in the Figure \ref{2.2b learning rate 1}. On the other hand, when using a low learning rate,
 the model takes smaller steps towards the minimum and thus, it takes more time to converge. In our example, for the learning rates that are really small, like 0.01 and 0.001,
 the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7675 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy, for the given number of epochs.
 
+\subsubsection{}
+\paragraph{Answer} After running the code, the best and worst configuration were for the default model and the model with dropout of 0.2, respectively.
+                    The plots generated for both models can be seen below:
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-256-lr-0.1-epochs-150-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}

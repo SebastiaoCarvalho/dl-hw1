@@ -81,6 +81,7 @@ represent linear relationships, whereas MLPs can capture non-linearities. Logist
 convex optimization, unlike the non-convex problem of training MLPs.
 
 \subsubsection{}
+\label{1.2.b}
 \paragraph{Answer} After running the code, the following plots was generated:
 \begin{figure}[H]
     \centering
@@ -138,7 +139,7 @@ The test accuracy was 0.6200.
     \includegraphics[width=0.8\textwidth]{"plots/mlp-training-loss-batch-1024-lr-0.1-epochs-20-hidden-200-dropout-0.0-l2-0-layers-2-act-relu-opt-sgd.png"}
     \caption{Training and validation loss for batch size of 1024}
     \label{2.2a batch size 1024}
-\end{figure}
+\end{figure} 
 
 This exercise explores the trade-off between train time and performance when using different batch sizes. When training with smaller batch sizes, the model updates weights more frequently,
 since each update is working with less data each time, and thus, takes more time to train when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can 
@@ -165,15 +166,11 @@ The best test accuracy was 0.7675 for batch size 16.
     \label{2.2b learning rate 1}
 \end{figure}
 
-This exercise explores the trade-off between a high and low learning rate. When using a high learning rate, the model converges faster, since it is taking bigger steps towards the minimum. 
-However, this can lead to problems, since the model can overshoot the optimal minimum. On the other hand, when using a low learning rate, the model takes smaller steps towards 
-the minimum and thus, it takes more time to converge. This can be a good thing, since it can avoid overshooting the minimum and diverging. Important to note, that for a very low learning rate,
-the model can get stuck in a local minimum, not achieving the best possible accuracy. For our specific case, the model with learning rate 1 seems to have converged too quickly on a non optimal minimum,
-since the model does not improve further after the first ephocs, as we can see in the Figure \ref{2.2b learning rate 1}. For the learning rates 0.01 and 0.001, since the convergence is slower, 
+Similar to the exercise \ref{1.2.b}, in this exercise we explore the influence of different learning rates in the model's performance.
+As it was mentioned before, for high leaning rate values, the model converges faster, since it is taking bigger steps. This can lead to problems, 
+where the model converges to a non optimal minimum, as we can see in the Figure \ref{2.2b learning rate 1}. On the other hand, when using a low learning rate,
+the model takes smaller steps towards the minimum and thus, it takes more time to converge. In our example, for the learning rates that are really small, like 0.01 and 0.001,
 the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7675 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy, for the given number of epochs.
-
-\subsubsection{}
-\paragraph{Answer} After running the code, the best configuration was for the model with a dropout probability of 0.2 and the worst one was for the default model.
 
 \begin{figure}[H]
     \centering
@@ -190,8 +187,8 @@ the model was not able to reach a good accuracy in 20 epochs. The best test accu
 \end{figure}
 
 
-For the base model proposed in this exercise, although the validation loss starts to slow down its decrease, there are no clear signs 
-of overfitting. 
+As we can see in the Figure \ref{2.2c default model}, in the default model, after some ephocs the train loss keeps decreasing but the validation loss
+stops decreasing as much. Because of this we can conclude that the model is overfitting.
 
 In this exercise, we explored two different techniques to avoid overfitting. We started by testing the model by applying L2 regularization, which adds 
 a penalty term to the loss function, forcing the model to learn smaller weights, encouraging the model to find simpler solutions and, that way, reducing 
@@ -201,8 +198,6 @@ After that we tested applying a dropout, which is a technique that randomly drop
 forcing the network to avoid relying too heavily on any one feature. The L2 regularization, only managed to a slight improvement in the 
 validation loss's stability. On the other hand, the dropout technique, managed to significantly improve the model's performance,
 as we can see in the Figure \ref{2.2c dropout 0.2}. The best test accuracy was 0.7825 for the model with dropout probability of 0.2.
-
-
 
 \section{Question 3}
 
@@ -246,7 +241,7 @@ This example thus serves as a counter-example proving that the given function ca
 Firstly, we will start by defining the weights and biases of the network. We will use the notation
 \( W^{(l)} \) and \( b^{(l)} \) to represent the weights and the biases, respectively, of the \( l \)-th layer. 
 We will also use $X = \begin{bmatrix}
-    x_1 & ... & x_D
+    x_1 & ... & x_Dreport/report.pdf
 \end{bmatrix}
 $ to represent the input vector.
 

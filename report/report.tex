@@ -6,6 +6,7 @@
 \usepackage{float}
 \usepackage{bm}
 \usepackage[top=2cm]{geometry}
+\renewcommand{\thesubsubsection}{\thesubsection\ \alph{subsubsection})}
 
 \title{Deep Learning - Homework 1}
 \author{99222 - Frederico Silva, 99326 - Sebastião Carvalho}
@@ -21,9 +22,9 @@
 
 Medical image classification with linear classifiers and neural networks.
 
-\subsection{Question 1.1}
+\subsection{}
 
-\subsubsection{Question 1.1 a)}
+\subsubsection{}
 
 \paragraph{Answer} After running the code, the following plot was generated:
 \begin{figure}[H]
@@ -33,9 +34,9 @@ Medical image classification with linear classifiers and neural networks.
     \label{1.1.a Plot}
 \end{figure}
 
-The final test accuracy was 0.3422.
+The test accuracy was 0.3422.
 
-\subsubsection{Question 1.1 b)}
+\subsubsection{}
 \paragraph{Answer} After running the code, the following plots were generated for learning rates $\eta = 0.01$ and $\eta = 0.001$, respectively:
 \begin{figure}[H]
     \centering
@@ -51,16 +52,16 @@ The final test accuracy was 0.3422.
     \label{1.1.b 0.0001 Plot}
 \end{figure}
 
-The final test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
+The test accuracy was 0.5784 and 0.5936 for $\eta = 0.01$ and $\eta = 0.001$ respectively.\\
 Comparing both charts, we can see that for $\eta = 0.001$, the accuracy increases more slowly, but it reaches a higher value than for $\eta = 0.01$. 
 This is because for $\eta = 0.01$, the algorithm is taking too big steps, and it is not able to converge to a better solution. This can be 
 seen in the chart for $\eta = 0.01$, near epoch 40, when the accuracy drops to an all time low.\\
 Since the learning rate is too small for $\eta = 0.001$, the algorithm takes longer to reach higher accuracies, but it's also 
 less oscillatory, and it is able to converge to a better solution.\\
 
-\subsection{Question 1.2}
+\subsection{}
 
-\subsubsection{Question 1.2 a)}
+\subsubsection{}
 
 \paragraph{Answer}
 The answer to this question mainly focus on two topics: how complex the models are, meaning their expressiveness, and how easy they are to train. \\
@@ -79,7 +80,7 @@ In short, the claim is true. A logistic regression model is less expressive than
 represent linear relationships, whereas MLPs can capture non-linearities. Logistic regression models are easier to train because they involve 
 convex optimization, unlike the non-convex problem of training MLPs.
 
-\subsubsection{Question 1.2 b)}
+\subsubsection{}
 \paragraph{Answer} After running the code, the following plots was generated:
 \begin{figure}[H]
     \centering
@@ -96,28 +97,14 @@ convex optimization, unlike the non-convex problem of training MLPs.
     \label{1.2.b Loss Plot}
 \end{figure}
 
-The final test accuracy was 0.7505.
+The test accuracy was 0.7505.
 
 \section{Question 2}
 Medical image classification with an autodiff toolkit.
 
-\subsection{Question 2.1}
+\subsection{}
 
 \paragraph{Answer} After running the code, the following plots were generated:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{"plots/logistic_regression-training-loss-batch-16-lr-0.1-epochs-20-l2-0-opt-sgd.png"}
-    \caption{Training and validation loss for $\eta = 0.1$}
-    \label{2.1 0.1 Loss Plot}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{"plots/logistic_regression-validation-accuracy-batch-16-lr-0.1-epochs-20-l2-0-opt-sgd.png"}
-    \caption{Validation accuracy for $\eta = 0.1$}
-    \label{2.1 0.1 Acc Plot}
-\end{figure}
 
 \begin{figure}[H]
     \centering
@@ -133,27 +120,11 @@ Medical image classification with an autodiff toolkit.
     \label{2.1 0.01 Acc Plot}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{"plots/logistic_regression-training-loss-batch-16-lr-0.001-epochs-20-l2-0-opt-sgd.png"}
-    \caption{Training and validation loss for $\eta = 0.001$}
-    \label{2.1 0.001 Loss Plot}
-\end{figure}
+The test accuracy was 0.6200.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.8\textwidth]{"plots/logistic_regression-validation-accuracy-batch-16-lr-0.001-epochs-20-l2-0-opt-sgd.png"}
-    \caption{Validation accuracy for $\eta = 0.001$}
-    \label{2.1 0.001 Acc Plot}
-\end{figure}
+\subsection{}
 
-The test accuracies were 0.5577, 0.6200 and 0.6503 for $\eta = 0.1$, $\eta = 0.01$ and $\eta = 0.001$ respectively.
-
-Looking at the plots, we can see that the best configuration, in terms of final valdiation accuracy, was $\eta = 0.01$.
-
-\subsection{Question 2.2}
-
-\subsubsection{Question 2.2 a)}
+\subsubsection{}
 \paragraph{Answer} After running the code, the following plots were generated:
 \begin{figure}[H]
     \centering
@@ -173,11 +144,11 @@ This exercise explores the trade-off between train time and performance when usi
 since each update is working with less data each time, and thus, takes more time to train when comparing to a bigger batch size. However, this frequent updating for smaller batch sizes can 
 provide a regularizing effect avoiding overfitting. When compared to larger batch sizes, smaller batch sizes are more noisy, since they are more sensitive to the data they are working with. This noise can be positive, since it can help the model
 to avoid converging to a local minimum and, that way, impoves the chances of finding the global minimum. On the other hand, the noise can also be negative, since it can lead to a slower convergence. On a overall note, smaller batch sizes often lead to a better 
-model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024.
+model generalization and accuracy, despite taking more time to train. This comment can be supported by the plots above, where we can see that the model with batch size 16 has a better performance than the one with batch size 1024, despite having taken more time to train.
 
 The best test accuracy was 0.7675 for batch size 16.
 
-\subsubsection{Question 2.2 b)}
+\subsubsection{}
 \paragraph{Answer} After running the code, the best and worst configurations were for learning rates of 0.1 and 1, respectively:
 
 \begin{figure}[H]
@@ -199,9 +170,9 @@ However, this can lead to problems, since the model can overshoot the optimal mi
 the minimum and thus, it takes more time to converge. This can be a good thing, since it can avoid overshooting the minimum and diverging. Important to note, that for a very low learning rate,
 the model can get stuck in a local minimum, not achieving the best possible accuracy. For our specific case, the model with learning rate 1 seems to have converged too quickly on a non optimal minimum,
 since the model does not improve further after the first ephocs, as we can see in the Figure \ref{2.2b learning rate 1}. For the learning rates 0.01 and 0.001, since the convergence is slower, 
-the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7675 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy.
+the model was not able to reach a good accuracy in 20 epochs. The best test accuracy was 0.7675 for learning rate 0.1, wich offered a good balance between convergence speed and accuracy, for the given number of epochs.
 
-\subsubsection{Question 2.2 c)}
+\subsubsection{}
 \paragraph{Answer} After running the code, the best configuration was for the model with a dropout probability of 0.2 and the worst one was for the default model.
 
 \begin{figure}[H]
@@ -233,8 +204,8 @@ as we can see in the Figure \ref{2.2c dropout 0.2}. The best test accuracy was 0
 
 \section{Question 3}
 
-\subsection{Question 3.1}
-\subsubsection{Question 3.1 a)}
+\subsection{}
+\subsubsection{}
 \paragraph{Answer}
 
 To demonstrate that the specified Boolean function cannot be computed by a single perceptron, let's consider a simple case where \( D = 2 \), \( A = -1 \), and \( B = 1 \). The function \( f \) is defined as:
@@ -267,7 +238,7 @@ This example thus serves as a counter-example proving that the given function ca
     \caption{Classification of points using the function \( f \)}
     \label{3a Plot}
 \end{figure}
-\subsubsection{Question 3.1 b)}
+\subsubsection{}
 \paragraph{Answer}
 
 Firstly, we will start by defining the weights and biases of the network. We will use the notation
@@ -353,11 +324,11 @@ For the second layer, we want to be able to check if both conditions were met in
 \bigskip
 
 \(W^{(2)}\) and \(b^{(2)}\) are used to compute an AND logic function of the two hidden units. We use this since the output of
-the hidden units is either -1 or 1, which can be considered boolean, and computing the AND we can verify if they respect both the 
-lower bound and upper bound, and thus belong to the range \([A, B]\). 
+the hidden units is either -1 or 1, which can be considered boolean, and by computing the AND we can verify if they respect both the 
+lower bound and upper bound and thus, belong to the range \([A, B]\). 
 
 With this, if \(h(x)\) is the resulting function of the network, we have that \(h(x) = 1\) if the sum of the input vector is within the range \([A, B]\),
-and -1 otherwise, and, thus, \(h(x) = f(x)\), and we prove this neural network computes \(f(x)\).
+and -1 otherwise, that way \(h(x) = f(x)\), and we prove this neural network computes \(f(x)\).
 
 \bigskip
 
@@ -369,16 +340,16 @@ $, and we perturb it to make it $X' = \begin{bmatrix}
     1 + \epsilon
 \end{bmatrix}
 $, with $\epsilon \in \mathbb{R}$, $\epsilon > 0$ and $D = A = B = 1$, since $\epsilon$ is a really small number, 
-we have that $h(X) = 1$ and $h(X') = -1$, and thus the current network is not robust to infinitesimal perturbation of the inputs.
+we have that $h(X) = 1$ and $h(X') = -1$, so the current network is not robust to infinitesimal perturbation of the inputs.
 
 \bigskip
 
 To prevent this from happening, we need to change the interval of values we want to accept from $[A, B]$ to $[A - \epsilon, B + \epsilon]$.
 Since the input vector contains only integers, we can say that
-the sum of the input vector is also an integer, and thus we need an $\epsilon$ that is smaller than 1. 
+the sum of the input vector is also an integer. Hence, we need an $\epsilon$ that is smaller than 1. 
 
 This means we have to create new inequations for the lower bound and upper bound conditions, 
-and thus we have to change the weights and biases of the first layer.
+and consequently we have to change the weights and biases of the first layer.
 
 The first hidden unit needs to represent the following inequation:
 
@@ -457,7 +428,7 @@ the hidden units is either -1 or 1, which can be considered boolean, we can comp
 With this, we have that \(h(x) = f(x)\), and the network is robust to infinitesimal perturbation of the inputs, since it now accepts inputs
 that are within the range \([A - \epsilon, B + \epsilon]\).
 
-\subsubsection{Question 3.1 c)}
+\subsubsection{}
 
 \paragraph{Answer}
 
@@ -471,7 +442,7 @@ The rectified linear unit (ReLU) activation function is defined as:
     \end{cases}
 \]
 
-First we will start by defining the weights and biases of the network. We will use the same notation as the previous 
+First, we will start by defining the weights and biases of the network. We will use the same notation as the previous 
 exercise for the weights and biases.
 
 \bigskip
@@ -674,7 +645,8 @@ that are within the range \([A - \epsilon, B + \epsilon]\).
 
 \section{Credits}
 
-Frederico did nothing.
-Sebastião did everything.
+Frederico did everything.
+Sebastião did nothing, didn't even know how to make an empty line in latex.
+Fim da 15, inicio da 16.
 
 \end{document}
